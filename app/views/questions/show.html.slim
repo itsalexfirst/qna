@@ -1,2 +1,7 @@
 h1= @question.title
 p= @question.body
+
+=render 'answers/form'
+
+-if @question.answers
+  =render  @question.answers
