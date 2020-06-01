@@ -12,7 +12,7 @@ feature 'User can sign in', %q{
     visit root_path
     click_link 'Log in'
   end
-  
+
   scenario 'Registered user tries to sign in' do
     fill_in 'Email', with: user.email
     fill_in 'Password', with: user.password
