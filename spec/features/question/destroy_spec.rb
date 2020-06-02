@@ -17,6 +17,7 @@ feature 'Only Author can delete question', %q{
 
       click_on 'Delete'
 
+      expect(page).to_not have_content question.title
       expect(page).to have_content 'Your question successfully deleted.'
     end
 
@@ -24,6 +25,7 @@ feature 'Only Author can delete question', %q{
       sign_in(user)
       visit question_path(question)
 
+      expect(page).to have_content question.title
       expect(page).to_not have_link 'Delete'
     end
   end
@@ -31,6 +33,7 @@ feature 'Only Author can delete question', %q{
   scenario 'Unauthenticated user tries to delete someone question' do
     visit question_path(question)
 
+    expect(page).to have_content question.title
     expect(page).to_not have_link 'Delete'
   end
 

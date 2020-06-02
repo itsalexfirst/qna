@@ -8,7 +8,7 @@ class AnswersController < ApplicationController
     @answer.author = current_user
 
     if @answer.save
-      redirect_to question_path(@question), notice: 'Your answer successfully created.'
+      redirect_to @question, notice: 'Your answer successfully created.'
     else
       render 'questions/show'
     end
@@ -17,9 +17,9 @@ class AnswersController < ApplicationController
   def destroy
     if current_user.author_of?(@answer)
       @answer.destroy
-      redirect_to question_path(@answer.question), notice: 'Your answer successfully deleted.'
+      redirect_to @answer.question, notice: 'Your answer successfully deleted.'
     else
-      redirect_to question_path(@answer.question), notice: 'Your cant deleted answer.'
+      redirect_to @answer.question, notice: 'Your cant deleted answer.'
     end
   end
 

@@ -38,7 +38,7 @@ class QuestionsController < ApplicationController
       @question.destroy
       redirect_to questions_path, notice: 'Your question successfully deleted.'
     else
-      redirect_to questions_path, notice: 'Your cant deleted question.'
+      redirect_to @question, notice: 'Your cant deleted question.'
     end
   end
 
