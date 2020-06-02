@@ -34,7 +34,7 @@ feature 'Only Author can delete answer', %q{
       visit question_path(users_question)
 
       expect(page).to have_content users_answer.body
-      expect(page).to_not have_content 'Delete Answer'
+      expect(page).to_not have_link 'Delete Answer'
     end
   end
 
@@ -42,7 +42,7 @@ feature 'Only Author can delete answer', %q{
     visit question_path(authors_question)
 
     expect(page).to have_content authors_answer.body
-    expect(page).to_not have_content 'Delete Answer'
+    expect(page).to_not have_link 'Delete Answer'
   end
 
 end

@@ -24,14 +24,14 @@ feature 'Only Author can delete question', %q{
       sign_in(user)
       visit question_path(question)
 
-      expect(page).to_not have_content 'Delete'
+      expect(page).to_not have_link 'Delete'
     end
   end
 
   scenario 'Unauthenticated user tries to delete someone question' do
     visit question_path(question)
 
-    expect(page).to_not have_content 'Delete'
+    expect(page).to_not have_link 'Delete'
   end
 
 end
