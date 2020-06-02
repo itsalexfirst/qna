@@ -26,7 +26,6 @@ feature 'User can create answer', %q{
 
     scenario 'asks a question with errors' do
       click_on 'Answer'
-
       expect(page).to have_content "Body can't be blank"
     end
   end
