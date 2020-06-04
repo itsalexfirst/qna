@@ -40,3 +40,4 @@ yarn-debug.log*
 /.browserslistrc
 /.generators
 /.ruby-version.05.22.2020-23:52:33
+/.editorconfig
