@@ -1,2 +1,3 @@
-tr
-  td= question.title
+div  id="question-#{question.id}"
+  p= question.title
+  p= link_to 'Answers', question
