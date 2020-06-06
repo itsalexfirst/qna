@@ -7,6 +7,7 @@ feature 'User can edit his answer', %q{
 } do
 
   given!(:user) { create(:user) }
+  given(:not_author) { create(:user) }
   given!(:question) { create(:question) }
   given!(:answer) { create(:answer, question: question, author: user) }
   given(:not_user_answer) { create(:answer, question: question) }
@@ -40,12 +41,17 @@ feature 'User can edit his answer', %q{
       expect(page).to have_content "Body can't be blank"
     end
 
-    scenario 'tries to edit other users answer'
+    scenario 'tries to edit other users answer' do
+      sign_in not_author
+      visit question_path(question)
+
+      expect(page).to_not have_link 'Edit Answer'
+    end
   end
 
   scenario 'Unauthenticated user tries to edits answer' do
     visit question_path(question)
 
-    expect(page).to_not have_content 'Edit Answer'
+    expect(page).to_not have_link 'Edit Answer'
   end
 end
