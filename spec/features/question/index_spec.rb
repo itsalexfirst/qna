@@ -49,7 +49,7 @@ feature 'User can see questions list', %q{
       within "#question-#{questions.first.id}" do
         click_on 'Answers'
       end
-      save_and_open_page
+      
       questions.first.answers.each do |answer|
         expect(page).to have_content answer.body
       end

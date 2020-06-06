@@ -1,4 +1,8 @@
 p= link_to 'Ask question', new_question_path
 h1= 'List of questions'
 
-= render @questions
+.question-errors
+  = render 'shared/errors', resource: @question
+
+.questions
+  = render @questions
