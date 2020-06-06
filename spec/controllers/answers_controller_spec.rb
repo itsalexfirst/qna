@@ -12,7 +12,7 @@ RSpec.describe AnswersController, type: :controller do
         expect { post :create, params: { question_id: question, answer: attributes_for(:answer), format: :js } }.to change(question.answers, :count).by(1)
       end
 
-      it 'redirects to question show view' do
+      it 'render create template' do
         post :create, params: { question_id: question, answer: attributes_for(:answer), format: :js }
         expect(response).to render_template :create
       end
@@ -28,9 +28,58 @@ RSpec.describe AnswersController, type: :controller do
         expect { post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }, format: :js }.to_not change(Answer, :count)
       end
 
-      it 're-render new view' do
+      it 'render create template' do
         post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid), format: :js }
         expect(response).to render_template :create
+      end
+    end
+  end
+
+  describe 'PATH #update' do
+    let!(:answer) { create(:answer, question: question) }
+
+    context 'author of answer with valid attributes' do
+      before { login(answer.author) }
+
+      it 'changes answer attributes' do
+        post :update, params: { id: answer, answer: { body: 'edit text' } }, format: :js
+        answer.reload
+        expect(answer.body).to eq 'edit text'
+      end
+
+      it 'render update template' do
+        post :update, params: { id: answer, answer: { body: 'edit text' } }, format: :js
+        expect(response).to render_template :update
+      end
+    end
+
+    context 'author of answer with with invalid attributes' do
+      before { login(answer.author) }
+
+      it 'does not save the answer' do
+        expect do
+          post :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
+        end.to_not change(answer, :body)
+      end
+
+      it 'render update template' do
+        post :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
+        expect(response).to render_template :update
+      end
+    end
+
+    context 'not author of answer' do
+      before { login(user) }
+
+      it 'try to edit the answer' do
+        post :update, params: { id: answer, answer: { body: 'new body'} }, format: :js
+        answer.reload
+        expect(answer.body).to_not eq 'new body'
+      end
+
+      it 'render update template' do
+        post :update, params: { id: answer, answer: { body: 'new body'} }, format: :js
+        expect(response).to render_template :update
       end
     end
   end
