@@ -9,10 +9,11 @@ feature 'User can select best answer', %q{
   given!(:author) { create(:user) }
 
   given!(:authors_question) { create(:question, author: author) }
-  given!(:question) { create(:question) }
+  given!(:answer_one) { create(:answer, best: true, question: authors_question) }
+  given!(:answer_two) { create(:answer, question: authors_question) }
 
-  given!(:authors_question_answer) { create_list(:answer, 3, question: authors_question) }
-  given!(:answer) { create_list(:answer, 3, question: question) }
+  given!(:question) { create(:question) }
+  given!(:answer) { create(:answer, question: question) }
 
   describe 'Authenticated user', js: true do
 
@@ -21,7 +22,19 @@ feature 'User can select best answer', %q{
     scenario 'choose best question for his answer' do
       visit question_path(authors_question)
 
-      expect(page).to have_link 'Best'
+      within all(".answers")[0] do
+        expect(page).to have_content answer_one.body
+      end
+
+      within "#answer-#{answer_two.id}" do
+        page.accept_alert 'Are you sure?' do
+          click_on 'Best'
+        end
+      end
+
+      within all(".answers")[0] do
+        expect(page).to have_content answer_two.body
+      end
     end
 
     scenario 'tries to choose best question for someone answer' do

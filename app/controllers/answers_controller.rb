@@ -20,6 +20,7 @@ class AnswersController < ApplicationController
 
   def best
     @answer.best! if current_user.author_of?(@answer.question)
+    @question = @answer.question
   end
 
   private
