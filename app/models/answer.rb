@@ -7,7 +7,7 @@ class Answer < ApplicationRecord
   scope :best, -> { where(best: true).take }
 
   def best!
-    self.question.best_answer&.update!(best: false)
+    self.question.best_answer&.update(best: false)
     update!(best: true)
   end
 end

@@ -121,14 +121,14 @@ RSpec.describe AnswersController, type: :controller do
       before { login(question.author) }
 
       it 'choose best answer' do
-        patch :update, params: { id: answer, answer: { best: true } }, format: :js
+        patch :best, params: { id: answer, answer: { best: true } }, format: :js
         answer.reload
 
         expect(answer.best).to eq true
       end
 
       it 'render template best' do
-        patch :update, params: { id: answer, answer: { best: true } }, format: :js
+        patch :best, params: { id: answer, answer: { best: true } }, format: :js
 
         expect(response).to render_template :best
       end
@@ -138,14 +138,14 @@ RSpec.describe AnswersController, type: :controller do
       before { login(user) }
 
       it 'try to choose best answer' do
-        patch :update, params: { id: answer, answer: { best: true } }, format: :js
+        patch :best, params: { id: answer, answer: { best: true } }, format: :js
         answer.reload
 
-        expect(answer.best).to_no eq true
+        expect(answer.best).to_not eq true
       end
 
       it 'render template best' do
-        patch :update, params: { id: answer, answer: { best: true } }, format: :js
+        patch :best, params: { id: answer, answer: { best: true } }, format: :js
 
         expect(response).to render_template :best
       end
