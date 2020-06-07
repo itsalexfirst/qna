@@ -113,4 +113,42 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
+
+  describe 'PATCH #best' do
+    let!(:answer) { create(:answer, question: question) }
+
+    context 'author of question' do
+      before { login(question.author) }
+
+      it 'choose best answer' do
+        patch :update, params: { id: answer, answer: { best: true } }, format: :js
+        answer.reload
+
+        expect(answer.best).to eq true
+      end
+
+      it 'render template best' do
+        patch :update, params: { id: answer, answer: { best: true } }, format: :js
+
+        expect(response).to render_template :best
+      end
+    end
+
+    context 'not author of question' do
+      before { login(user) }
+
+      it 'try to choose best answer' do
+        patch :update, params: { id: answer, answer: { best: true } }, format: :js
+        answer.reload
+
+        expect(answer.best).to_no eq true
+      end
+
+      it 'render template best' do
+        patch :update, params: { id: answer, answer: { best: true } }, format: :js
+
+        expect(response).to render_template :best
+      end
+    end
+  end
 end
