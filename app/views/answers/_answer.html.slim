@@ -20,6 +20,11 @@
               data: { confirm: 'Are you sure?' }
 
     = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
-      = f.label :body
-      = f.text_area :body
+      p
+        = f.label :body
+        = f.text_area :body
+        p
+          = f.label :files
+          = f.file_field :files, multiple: true
+        p
       = f.submit 'Save'
