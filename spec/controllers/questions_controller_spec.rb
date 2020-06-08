@@ -87,40 +87,51 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'PATCH #update' do
-    before { login(user) }
+  describe 'PATH #update' do
+    let!(:question) { create(:question) }
 
-    context 'with valid attributes' do
-      it 'assigns the requested question to @question' do
-        patch :update, params: { id: question, question: attributes_for(:question) }
-        expect(assigns(:question)).to eq question
-      end
+    context 'author of question with valid attributes' do
+      before { login(question.author) }
 
       it 'changes question attributes' do
-        patch :update, params: { id: question, question: { title: 'new title', body: 'new body'} }
+        post :update, params: { id: question, question: { body: 'edit text' } }, format: :js
         question.reload
-
-        expect(question.title).to eq 'new title'
-        expect(question.body).to eq 'new body'
+        expect(question.body).to eq 'edit text'
       end
 
-      it 'redirects to updated question' do
-        patch :update, params: { id: question, question: attributes_for(:question) }
-        expect(response).to redirect_to question
+      it 'render update template' do
+        post :update, params: { id: question, question: { body: 'edit text' } }, format: :js
+        expect(response).to render_template :update
       end
     end
 
-    context 'with invalid attributes' do
-      before { patch :update, params: { id: question, question: attributes_for(:question, :invalid) } }
-      it 'does not change question' do
-        question.reload
+    context 'author of question with with invalid attributes' do
+      before { login(question.author) }
 
-        expect(question.title).to have_text 'Title'
-        expect(question.body).to eq 'MyText'
+      it 'does not save the question' do
+        expect do
+          post :update, params: { id: question, question: attributes_for(:question, :invalid) }, format: :js
+        end.to_not change(question, :body)
       end
 
-      it 're-render edit view' do
-        expect(response).to render_template :edit
+      it 'render update template' do
+        post :update, params: { id: question, question: attributes_for(:question, :invalid) }, format: :js
+        expect(response).to render_template :update
+      end
+    end
+
+    context 'not author of question' do
+      before { login(user) }
+
+      it 'try to edit the question' do
+        post :update, params: { id: question, question: { body: 'new body'} }, format: :js
+        question.reload
+        expect(question.body).to_not eq 'new body'
+      end
+
+      it 'render update template' do
+        post :update, params: { id: question, question: { body: 'new body'} }, format: :js
+        expect(response).to render_template :update
       end
     end
   end

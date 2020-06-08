@@ -1,2 +1,17 @@
-tr
-  td= question.title
+-if question.persisted?
+  div  id="question-#{question.id}"
+    p= question.title
+    p= link_to 'Answers', question
+
+    - if current_user&.author_of?(question)
+      = link_to 'Delete Question', question_path(question),
+              method: :delete,
+              data: {confirm: 'Are you sure?'}
+      = link_to 'Edit Question', '#', class: 'edit-question-link', data: {question_id: question.id}
+
+      = form_with model: question, class: 'hidden', html: {id: "edit-question-#{question.id}"} do |f|
+        = f.label :title
+        = f.text_field :title
+        = f.label :body
+        = f.text_area :body
+        = f.submit 'Save'

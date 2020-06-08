@@ -18,18 +18,19 @@ feature 'Only Author can delete answer', %q{
 
 
   describe 'Authenticated user' do
-    scenario 'as Author can delete own answer' do
+    scenario 'as Author can delete own answer', js: true do
       sign_in(author)
       visit question_path(authors_question)
       expect(page).to have_content authors_answer.body
 
-      click_on 'Delete Answer'
+      page.accept_alert 'Are you sure?' do
+        click_on 'Delete Answer'
+      end
 
       expect(page).to_not have_content authors_answer.body
-      expect(page).to have_content 'Your answer successfully deleted.'
     end
 
-    scenario 'as NOT Author tries to delete someone answer' do
+    scenario 'as NOT Author tries to delete someone answer', js: true do
       sign_in(author)
       visit question_path(users_question)
 
@@ -38,7 +39,7 @@ feature 'Only Author can delete answer', %q{
     end
   end
 
-  scenario 'Unauthenticated user tries to delete someone answer' do
+  scenario 'Unauthenticated user tries to delete someone answer', js: true do
     visit question_path(authors_question)
 
     expect(page).to have_content authors_answer.body

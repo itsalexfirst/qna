@@ -1,26 +1,26 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, only: %i[create destroy]
   before_action :load_question, only: %i[create]
-  before_action :load_answer, only: %i[destroy]
+  before_action :load_answer, only: %i[update destroy best]
 
   def create
     @answer = @question.answers.new(answer_params)
     @answer.author = current_user
+    @answer.save
+  end
 
-    if @answer.save
-      redirect_to @question, notice: 'Your answer successfully created.'
-    else
-      render 'questions/show'
-    end
+  def update
+    @answer.update(answer_params) if current_user.author_of?(@answer)
+    @question = @answer.question
   end
 
   def destroy
-    if current_user.author_of?(@answer)
-      @answer.destroy
-      redirect_to @answer.question, notice: 'Your answer successfully deleted.'
-    else
-      redirect_to @answer.question, notice: 'Your cant deleted answer.'
-    end
+    @answer.destroy if current_user.author_of?(@answer)
+  end
+
+  def best
+    @answer.best! if current_user.author_of?(@answer.question)
+    @question = @answer.question
   end
 
   private

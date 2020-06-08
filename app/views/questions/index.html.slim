@@ -1,6 +1,8 @@
 p= link_to 'Ask question', new_question_path
 h1= 'List of questions'
-table
-  tr
-    th= "Title"
+
+.question-errors
+  = render 'shared/errors', resource: @question
+
+.questions
   = render @questions
