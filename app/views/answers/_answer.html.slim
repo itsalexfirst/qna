@@ -1,6 +1,11 @@
 -if answer.persisted?
   div  id="answer-#{answer.id}"
     p= answer.body
+
+    -if answer.files.attached?
+      - answer.files.each do |file|
+        p= link_to file.filename.to_s, url_for(file)
+
     -if current_user&.author_of?(answer)
       = link_to 'Delete Answer', answer_path(answer),
                  method: :delete,
