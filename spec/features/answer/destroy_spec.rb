@@ -27,7 +27,6 @@ feature 'Only Author can delete answer', %q{
         click_on 'Delete Answer'
       end
 
-      expect(page).to have_content authors_answer.body
       expect(page).to_not have_content authors_answer.body
     end
 
