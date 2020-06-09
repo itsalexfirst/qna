@@ -17,8 +17,8 @@ feature 'Only Author can delete answer', %q{
 
 
 
-  describe 'Authenticated user' do
-    scenario 'as Author can delete own answer', js: true do
+  describe 'Authenticated user', js: true do
+    scenario 'as Author can delete own answer' do
       sign_in(author)
       visit question_path(authors_question)
       expect(page).to have_content authors_answer.body
@@ -28,6 +28,18 @@ feature 'Only Author can delete answer', %q{
       end
 
       expect(page).to_not have_content authors_answer.body
+    end
+
+    scenario 'as Author can delete attached files of answer' do
+      sign_in(author)
+      authors_answer.files.attach(io: File.open("#{Rails.root}/spec/rails_helper.rb"), filename: 'rails_helper.rb')
+      visit question_path(authors_question)
+
+      page.accept_alert 'Are you sure?' do
+        click_on 'Delete file'
+      end
+
+      expect(page).to_not have_link 'rails_helper.rb'
     end
 
     scenario 'as NOT Author tries to delete someone answer', js: true do
