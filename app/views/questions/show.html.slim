@@ -1,6 +1,16 @@
 h1= @question.title
 p= @question.body
 
+-if @question.files.attached?
+  - @question.files.each do |file|
+    div id="attachment-#{file.id}"
+      p= link_to file.filename.to_s, url_for(file)
+      - if current_user&.author_of?(@question)
+        = link_to 'Delete file', attachment_path(file),
+                method: :delete,
+                remote: true,
+                data: {confirm: 'Are you sure?'}
+
 -if current_user&.author_of?(@question)
   =link_to 'Delete', question_path(@question),
                    method: :delete,
@@ -9,4 +19,4 @@ p= @question.body
 =render 'answers/form'
 
 .answers
-  =render  @question.answers
+  =render  @question.answers.with_attached_files

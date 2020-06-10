@@ -1,6 +1,17 @@
 -if question.persisted?
   div  id="question-#{question.id}"
     p= question.title
+    - if question.files.attached?
+      - question.files.each do |file|
+        div  id="attachment-#{file.id}"
+          p= link_to file.filename.to_s, url_for(file)
+          - if current_user&.author_of?(question)
+            = link_to 'Delete file', attachment_path(file),
+                    method: :delete,
+                    remote: true,
+                    data: {confirm: 'Are you sure?'}
+
+
     p= link_to 'Answers', question
 
     - if current_user&.author_of?(question)
@@ -10,8 +21,14 @@
       = link_to 'Edit Question', '#', class: 'edit-question-link', data: {question_id: question.id}
 
       = form_with model: question, class: 'hidden', html: {id: "edit-question-#{question.id}"} do |f|
-        = f.label :title
-        = f.text_field :title
-        = f.label :body
-        = f.text_area :body
-        = f.submit 'Save'
+        p
+          = f.label :title
+          = f.text_field :title
+        p
+          = f.label :body
+          = f.text_area :body
+        p
+          = f.label :files
+          = f.file_field :files, multiple: true, direct_upload: true
+
+        p= f.submit 'Save'
