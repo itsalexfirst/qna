@@ -24,7 +24,7 @@ RSpec.describe AttachmentsController, type: :controller do
       before { login(user) }
 
       it 'try to deletes attachment' do
-        expect { delete :destroy, params: { id: question.files.first.id }, format: :js }.to change(question.files, :count).by(0)
+        expect { delete :destroy, params: { id: question.files.first.id }, format: :js }.to_not change(question.files, :count)
       end
 
       it 'redirect to current question' do

@@ -104,7 +104,7 @@ RSpec.describe AnswersController, type: :controller do
       before { login(user) }
 
       it 'try to deletes the answer' do
-        expect { delete :destroy, params: { id: answer }, format: :js }.to change(Answer, :count).by(0)
+        expect { delete :destroy, params: { id: answer }, format: :js }.to_not change(Answer, :count)
       end
 
       it 'render template destroy' do
