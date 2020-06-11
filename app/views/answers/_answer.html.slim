@@ -24,6 +24,12 @@
               method: :patch,
               remote: true,
               data: { confirm: 'Are you sure?' }
+    .links
+      - if answer.links
+        p Links:
+        ul
+          - answer.links.each do |link|
+            li= link_to link.name, link.url
 
     = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
       p
