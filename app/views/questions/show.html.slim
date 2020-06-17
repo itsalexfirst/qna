@@ -17,7 +17,7 @@ p= @question.body
                    data: { confirm: 'Are you sure?' }
 
 .links
-  -if @question.links
+  -unless @question.links.empty?
     p Links:
     ul
       - @question.links.each do |link|

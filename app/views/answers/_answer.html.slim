@@ -25,7 +25,7 @@
               remote: true,
               data: { confirm: 'Are you sure?' }
     .links
-      - if answer.links
+      - unless answer.links.empty?
         p Links:
         ul
           - answer.links.each do |link|

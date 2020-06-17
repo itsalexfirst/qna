@@ -22,6 +22,26 @@ feature 'User can add links to question', %q{
     expect(page).to have_link 'Test link', href: gist_url
   end
 
+  scenario 'User adds links when ask question', js: true do
+    sign_in(user)
+    visit new_question_path
+
+    fill_in 'Title', with: 'Test question'
+    fill_in 'Body', with: 'text text'
+
+    click_on 'add link'
+
+    all('.nested-fields').each do |f|
+      within(f) do
+        fill_in 'Link name', with: 'Test link'
+        fill_in 'Url', with: gist_url
+      end
+    end
+    click_on 'Ask'
+
+    expect(page).to have_link 'Test link', href: gist_url, count: 2
+  end
+
   scenario 'User adds link when ask question with error', js: true do
     sign_in(user)
     visit new_question_path

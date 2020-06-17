@@ -9,7 +9,7 @@ feature 'User can add links to answer', %q{
   given(:question) { create(:question) }
   given(:gist_url) { 'https://gist.github.com/itsalexfirst/da7bbbaf7c2863b2ffbe5935e4b8cb21' }
 
-  scenario 'User adds link when ask question', js: true do
+  scenario 'User adds link when add answer', js: true do
     sign_in(user)
     visit question_path(question)
 
@@ -24,7 +24,28 @@ feature 'User can add links to answer', %q{
     end
   end
 
-  scenario 'User adds link when ask question with error', js: true do
+  scenario 'User adds links when add answer', js: true do
+    sign_in(user)
+    visit question_path(question)
+
+    fill_in 'Body', with: 'text text'
+
+    click_on 'add link'
+
+    all('.nested-fields').each do |f|
+      within(f) do
+        fill_in 'Link name', with: 'Test link'
+        fill_in 'Url', with: gist_url
+      end
+    end
+    click_on 'Answer'
+
+    within '.answers' do
+      expect(page).to have_link 'Test link', href: gist_url, count: 2
+    end
+  end
+
+  scenario 'User adds link when add answer with error', js: true do
     sign_in(user)
     visit question_path(question)
 
