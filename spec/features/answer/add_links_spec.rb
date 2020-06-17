@@ -23,4 +23,16 @@ feature 'User can add links to answer', %q{
       expect(page).to have_link 'Test link', href: gist_url
     end
   end
+
+  scenario 'User adds link when ask question with error', js: true do
+    sign_in(user)
+    visit question_path(question)
+
+    fill_in 'Body', with: 'text text'
+
+    fill_in 'Link name', with: 'Test link'
+    click_on 'Answer'
+
+    expect(page).to have_content 'Links url is invalid'
+  end
 end
