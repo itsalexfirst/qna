@@ -21,7 +21,10 @@ p= @question.body
     p Links:
     ul
       - @question.links.each do |link|
-        li= link_to link.name, link.url
+        -if link.gist?
+          =render 'shared/gist_body', resource: link
+        -else
+          li= link_to link.name, link.url
 
 =render 'answers/form'
 
