@@ -1,11 +1,15 @@
 module LinksHelper
-  require 'open-uri'
+  require 'net/http'
 
   def gist_content(resource)
-    gist("#{resource.url}.json")['div']
+    gist_hash = get_gist("#{resource.url}.json")
+    gist_hash.has_key?('div') ? gist_hash['div'] : 'N/A'
   end
 
-  def gist(url)
-    JSON.load(open(url))
+  def get_gist(url)
+    response = Net::HTTP.get_response(URI(url))
+    data = response.body
+    JSON.load(data)
+    rescue StandardError
   end
 end
