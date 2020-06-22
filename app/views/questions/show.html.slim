@@ -21,10 +21,16 @@ p= @question.body
     p Links:
     ul
       - @question.links.each do |link|
-        -if link.gist?
-          =render 'shared/gist_body', resource: link
-        -else
-          li= link_to link.name, link.url
+        div id="link-#{link.id}"
+          -if link.gist?
+            =render 'shared/gist_body', resource: link
+          -else
+            li= link_to link.name, link.url
+          - if current_user&.author_of?(@question)
+            = link_to 'Delete link', link_path(link),
+                    method: :delete,
+                    remote: true,
+                    data: {confirm: 'Are you sure?'}
 
 =render 'answers/form'
 
