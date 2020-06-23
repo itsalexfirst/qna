@@ -14,10 +14,15 @@ RSpec.describe Answer, type: :model do
   end
 
   describe '#best!' do
-    let(:user) {create(:user)}
+    let(:user) { create(:user) }
     let!(:question) { create(:question, author: user) }
     let!(:answer) { create(:answer, best: true, question: question) }
     let!(:another_answer) { create(:answer, question: question) }
+
+    let!(:award) { create(:award) }
+    let!(:question_with_award) { create(:question, award: award, author: user) }
+    let!(:answer_for_awarded_question) { create(:answer, question: question_with_award) }
+
 
     it 'choose another answer as best' do
       expect(answer).to be_best
@@ -29,6 +34,15 @@ RSpec.describe Answer, type: :model do
 
       expect(answer).to_not be_best
       expect(another_answer).to be_best
+    end
+
+    it 'choose answer as best for awarded question' do
+      expect(answer_for_awarded_question.author.awards).to be_empty
+      answer_for_awarded_question.best!
+
+      answer_for_awarded_question.reload
+
+      expect(answer_for_awarded_question.author.awards.first).to eq question_with_award.award
     end
   end
 end

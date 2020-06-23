@@ -6,7 +6,6 @@ feature 'User can add award to question', %q{
   I`d like to be able to add award
 } do
   given(:user) { create(:user) }
-  given(:image) { 'https://upload.wikimedia.org/wikipedia/commons/3/30/Binette-typo.png' }
 
   scenario 'User adds award when ask question', js: true do
     sign_in(user)
