@@ -10,6 +10,8 @@
                     method: :delete,
                     remote: true,
                     data: {confirm: 'Are you sure?'}
+    - if question.award.present?
+      = image_tag(question.award.image, height: "40")
 
     -unless question.links.empty?
       p Links:

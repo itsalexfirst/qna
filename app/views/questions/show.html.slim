@@ -1,5 +1,7 @@
 h1= @question.title
 p= @question.body
+- if @question.award.present?
+  = image_tag(@question.award.image, height: "40")
 
 -if @question.files.attached?
   - @question.files.each do |file|
