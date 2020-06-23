@@ -10,8 +10,7 @@ feature 'User can edit his question', %q{
   given(:not_author) { create(:user) }
   given!(:question) { create(:question, author: user) }
   given!(:not_user_question) { create(:question) }
-  given!(:answer) { create(:answer, question: question, author: user) }
-  given(:not_user_answer) { create(:answer, question: question) }
+  given(:test_url) { 'https://yandex.ru' }
 
   describe 'Authenticated user', js: true do
     scenario 'edits his question' do
@@ -43,6 +42,21 @@ feature 'User can edit his question', %q{
       expect(page).to have_link 'spec_helper.rb'
     end
 
+    scenario 'add link while edits his question' do
+      sign_in user
+      visit root_path
+
+      within "#question-#{question.id}" do
+        click_on 'Edit Question'
+        click_on 'add link'
+        fill_in 'Link name', with: 'Test link'
+        fill_in 'Url', with: test_url
+        click_on 'Save'
+      end
+
+      expect(page).to have_link 'Test link', href: test_url
+    end
+
     scenario 'edits his question with errors' do
       sign_in user
       visit root_path
@@ -56,7 +70,7 @@ feature 'User can edit his question', %q{
       expect(page).to have_content "Body can't be blank"
     end
 
-    scenario 'tries to edit other users answer' do
+    scenario 'tries to edit other users question' do
       sign_in user
       visit root_path
 
@@ -66,7 +80,7 @@ feature 'User can edit his question', %q{
     end
   end
 
-  scenario 'Unauthenticated user tries to edits answer' do
+  scenario 'Unauthenticated user tries to edits question' do
     visit root_path
 
     expect(page).to_not have_link 'Edit Question'

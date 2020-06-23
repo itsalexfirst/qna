@@ -10,6 +10,23 @@
                     method: :delete,
                     remote: true,
                     data: {confirm: 'Are you sure?'}
+    - if question.award.present?
+      = image_tag(question.award.image, height: "40")
+
+    -unless question.links.empty?
+      p Links:
+      ul
+        - question.links.each do |link|
+          div id="link-#{link.id}"
+            -if link.gist?
+              =render 'shared/gist_body', resource: link
+            -else
+              li= link_to link.name, link.url
+            - if current_user&.author_of?(question)
+              = link_to 'Delete link', link_path(link),
+                      method: :delete,
+                      remote: true,
+                      data: {confirm: 'Are you sure?'}
 
 
     p= link_to 'Answers', question
@@ -30,5 +47,11 @@
         p
           = f.label :files
           = f.file_field :files, multiple: true, direct_upload: true
+
+        p Links:
+        p
+          = f.fields_for :links do |link|
+          .links
+            = link_to_add_association 'add link', f, :links, partial: 'shared/link_fields'
 
         p= f.submit 'Save'

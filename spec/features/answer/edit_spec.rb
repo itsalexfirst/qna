@@ -11,6 +11,7 @@ feature 'User can edit his answer', %q{
   given!(:question) { create(:question) }
   given!(:answer) { create(:answer, question: question, author: user) }
   given(:not_user_answer) { create(:answer, question: question) }
+  given(:test_url) { 'https://yandex.ru' }
 
   describe 'Authenticated user', js: true do
     scenario 'edits his answer' do
@@ -29,7 +30,7 @@ feature 'User can edit his answer', %q{
       end
     end
 
-    scenario 'answer a question with attached file' do
+    scenario 'edit answer with attached file' do
       sign_in user
       visit question_path(question)
 
@@ -42,6 +43,22 @@ feature 'User can edit his answer', %q{
 
       expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'
+    end
+
+    scenario 'add link while edits his answer' do
+      sign_in user
+      visit question_path(question)
+
+      click_on 'Edit Answer'
+
+      within '.answers' do
+        click_on 'add link'
+        fill_in 'Link name', with: 'Test link'
+        fill_in 'Url', with: test_url
+        click_on 'Save'
+      end
+
+      expect(page).to have_link 'Test link', href: test_url
     end
 
     scenario 'edits his answer with errors' do

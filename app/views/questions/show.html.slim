@@ -1,5 +1,7 @@
 h1= @question.title
 p= @question.body
+- if @question.award.present?
+  = image_tag(@question.award.image, height: "40")
 
 -if @question.files.attached?
   - @question.files.each do |file|
@@ -15,6 +17,22 @@ p= @question.body
   =link_to 'Delete', question_path(@question),
                    method: :delete,
                    data: { confirm: 'Are you sure?' }
+
+.links
+  -unless @question.links.empty?
+    p Links:
+    ul
+      - @question.links.each do |link|
+        div id="link-#{link.id}"
+          -if link.gist?
+            =render 'shared/gist_body', resource: link
+          -else
+            li= link_to link.name, link.url
+          - if current_user&.author_of?(@question)
+            = link_to 'Delete link', link_path(link),
+                    method: :delete,
+                    remote: true,
+                    data: {confirm: 'Are you sure?'}
 
 =render 'answers/form'
 
