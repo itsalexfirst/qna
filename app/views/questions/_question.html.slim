@@ -1,6 +1,9 @@
 -if question.persisted?
   div  id="question-#{question.id}"
     p= question.title
+
+    = render 'shared/voting', resource: question
+
     - if question.files.attached?
       - question.files.each do |file|
         div  id="attachment-#{file.id}"

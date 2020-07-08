@@ -1,0 +1,20 @@
+= res_name = resource.class.name.downcase
+
+div id="votes-#{res_name}-#{resource.id}"
+
+  = link_to 'vote up', polymorphic_path([:vote_up, resource]),
+          method: :post,
+          remote: true,
+          data: { type: :json },
+          class: 'vote_up'
+
+  p = 'Rating:'
+
+  p id="rating-#{res_name}-#{resource.id}"
+    = resource.votes_sum
+
+  = link_to 'vote down', polymorphic_path([:vote_down, resource]),
+          method: :post,
+          remote: true,
+          data: { type: :json },
+          class: 'vote_down'

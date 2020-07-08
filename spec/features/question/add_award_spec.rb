@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature 'User can add award to question', %q{
-  In order to provide some stuffgist_url
+  In order to provide some stuff
   As an question author
   I`d like to be able to add award
 } do
