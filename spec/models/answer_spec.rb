@@ -45,4 +45,27 @@ RSpec.describe Answer, type: :model do
       expect(answer_for_awarded_question.author.awards.first).to eq question_with_award.award
     end
   end
+
+  describe 'votable' do
+    let!(:answer) { create(:answer) }
+    let!(:user) { create(:user) }
+    let!(:vote) { create(:vote, votable: answer, user: user) }
+    let!(:another_user) { create(:user) }
+
+    it '#create_vote' do
+      expect(answer.votes_sum).to equal 1
+    end
+
+    it '#votes_sum' do
+      answer.create_vote(another_user, 1)
+
+      expect(answer.votes_sum).to equal 2
+    end
+
+    it '#delete_vote' do
+      answer.create_vote(user, -1)
+
+      expect(answer.votes_sum).to equal 0
+    end
+  end
 end

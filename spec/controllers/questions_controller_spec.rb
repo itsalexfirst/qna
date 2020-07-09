@@ -205,11 +205,12 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #vote_down' do
+    let!(:question) { create(:question) }
 
     context 'author of questions' do
       before { login(question.author) }
 
-      it 'vote up for question' do
+      it 'vote down for question' do
         post :vote_down, params: {id: question}, format: :js
         expect(question.votes_sum).to eq 0
       end
@@ -218,7 +219,7 @@ RSpec.describe QuestionsController, type: :controller do
     context 'not author of questions' do
       before { login(user) }
 
-      it 'vote up for question' do
+      it 'vote down for question' do
         post :vote_down, params: {id: question}, format: :js
         expect(question.votes_sum).to eq -1
       end

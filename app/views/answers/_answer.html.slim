@@ -2,6 +2,8 @@
   div  id="answer-#{answer.id}"
     p= answer.body
 
+    = render 'shared/voting', resource: answer
+
     -if answer.files.attached?
       - answer.files.each do |file|
         div id="attachment-#{file.id}"
