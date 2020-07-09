@@ -159,7 +159,7 @@ RSpec.describe AnswersController, type: :controller do
       before { login(answer.author) }
 
       it 'vote up for answer' do
-        post :vote_up, params: {id: answer}, format: :js
+        post :vote_up, params: { id: answer }, format: :js
         expect(answer.votes_sum).to eq 0
       end
     end
@@ -168,7 +168,7 @@ RSpec.describe AnswersController, type: :controller do
       before { login(user) }
 
       it 'vote up for answer' do
-        post :vote_up, params: {id: answer}, format: :js
+        post :vote_up, params: { id: answer }, format: :js
         expect(answer.votes_sum).to eq 1
       end
     end
@@ -181,7 +181,7 @@ RSpec.describe AnswersController, type: :controller do
       before { login(answer.author) }
 
       it 'vote down for question' do
-        post :vote_down, params: {id: answer}, format: :js
+        post :vote_down, params: { id: answer }, format: :js
         expect(answer.votes_sum).to eq 0
       end
     end
@@ -190,8 +190,8 @@ RSpec.describe AnswersController, type: :controller do
       before { login(user) }
 
       it 'vote down for answer' do
-        post :vote_down, params: {id: answer}, format: :js
-        expect(answer.votes_sum).to eq -1
+        post :vote_down, params: { id: answer }, format: :js
+        expect(answer.votes_sum).to eq(-1)
       end
     end
   end

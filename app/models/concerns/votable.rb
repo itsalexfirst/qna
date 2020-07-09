@@ -6,21 +6,15 @@ module Votable
   end
 
   def create_vote(user, value)
-    vote = votes.find_by(user_id: user.id)
+    vote = votes.find_by(user: user)
     if vote&.vote == -value
-      delete_vote(vote)
+      vote.destroy
     else
-      votes.create_with(vote: value).find_or_create_by(user_id: user.id)
+      votes.find_or_create_by(user: user, vote: value)
     end
   end
 
   def votes_sum
     votes.sum(:vote)
-  end
-
-  private
-
-  def delete_vote(vote)
-    votes.destroy(vote)
   end
 end
