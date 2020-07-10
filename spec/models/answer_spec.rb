@@ -45,4 +45,53 @@ RSpec.describe Answer, type: :model do
       expect(answer_for_awarded_question.author.awards.first).to eq question_with_award.award
     end
   end
+
+  describe '#create_vote' do
+    let!(:answer) { create(:answer) }
+    let!(:user) { create(:user) }
+    let!(:another_user) { create(:user) }
+
+    it 'one user vote up' do
+      expect(answer.votes.count).to eq 0
+      answer.create_vote(user, 1)
+
+      expect(answer.votes.count).to eq 1
+    end
+
+    it 'one user vote up then undo vote' do
+      expect(answer.votes.count).to eq 0
+      answer.create_vote(user, 1)
+      answer.create_vote(user, -1)
+
+      expect(answer.votes.count).to eq 0
+    end
+
+    it 'two users vote' do
+      expect(answer.votes.count).to eq 0
+      answer.create_vote(user, 1)
+      answer.create_vote(another_user, -1)
+
+      expect(answer.votes.count).to eq 2
+    end
+  end
+
+  describe '#votes_sum' do
+    let!(:answer) { create(:answer) }
+    let!(:user) { create(:user) }
+    let!(:vote) { create(:vote, votable: answer, user: user) }
+
+    let!(:another_answer) { create(:answer) }
+    let!(:another_user) { create(:user) }
+    let!(:another_vote_1) { create(:vote, votable: another_answer, user: user) }
+    let!(:another_vote_2) { create(:vote, :vote_down, votable: another_answer, user: another_user) }
+
+    it 'one user vote up' do
+      expect(answer.votes_sum).to eq 1
+    end
+
+
+    it 'two users vote' do
+      expect(another_answer.votes_sum).to eq 0
+    end
+  end
 end

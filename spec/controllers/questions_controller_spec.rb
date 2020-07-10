@@ -181,4 +181,48 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
+
+  describe 'POST #vote_up' do
+    let!(:question) { create(:question) }
+
+    context 'author of questions' do
+      before { login(question.author) }
+
+      it 'vote up for question' do
+        post :vote_up, params: {id: question}, format: :js
+        expect(question.votes_sum).to eq 0
+      end
+    end
+
+    context 'not author of questions' do
+      before { login(user) }
+
+      it 'vote up for question' do
+        post :vote_up, params: {id: question}, format: :js
+        expect(question.votes_sum).to eq 1
+      end
+    end
+  end
+
+  describe 'POST #vote_down' do
+    let!(:question) { create(:question) }
+
+    context 'author of questions' do
+      before { login(question.author) }
+
+      it 'vote down for question' do
+        post :vote_down, params: {id: question}, format: :js
+        expect(question.votes_sum).to eq 0
+      end
+    end
+
+    context 'not author of questions' do
+      before { login(user) }
+
+      it 'vote down for question' do
+        post :vote_down, params: {id: question}, format: :js
+        expect(question.votes_sum).to eq -1
+      end
+    end
+  end
 end
