@@ -20,4 +20,10 @@ class Answer < ApplicationRecord
       question.award&.update!(user: author)
     end
   end
+
+  def publish_files
+    all_files = []
+    files.each { |file| all_files.push(id: file.id, name: file.filename.to_s, url: file.service_url) }
+    return all_files
+  end
 end
