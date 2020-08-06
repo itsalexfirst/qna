@@ -13,8 +13,19 @@ $(document).on('turbolinks:load', function () {
     // Called when the subscription has been terminated by the server
   },
 
-  received(data) {
-    // Called when there's incoming data on the websocket for this channel
+  received(comment) {
+    console.log(comment)
+    var commentableType = comment.commentable_type.toLowerCase();
+    var commentableId = comment.commentable_id;
+
+    console.log(`#${commentableType}-${commentableId}-comments-${comment.id}`)
+
+    $(`#${commentableType}-${commentableId}-comments`).append(
+        $('<div/>').attr('id', `comment-${comment.id}`).html(comment.body));
+
+    $('.add-comment').show();
+
+    $(`form#${commentableType}-${commentableId}-comments`).hide();
   }
  });
 })

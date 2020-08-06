@@ -19,7 +19,7 @@ module Commented
 
       question = @commentable.is_a?(Question) ? @commentable : @commentable.question
 
-      CommentsChannel.broadcast_to(question, @comment.id)
+      CommentsChannel.broadcast_to(question, @comment)
     end
 
     def comment_params

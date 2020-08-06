@@ -1,5 +1,4 @@
 -unless resource.empty?
-  =resource.each do
-    div  id="comment-#{resource.id}"
-    p= resource.body
-
+  -resource.each do |comment|
+    div  id="comment-#{comment.id}"
+      p= comment.body

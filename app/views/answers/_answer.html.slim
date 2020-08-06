@@ -57,7 +57,7 @@
       = f.submit 'Save'
 
     div  id="answer-#{answer.id}-comments"
-      = render 'shared/comment', resource: answer.comments
-
       - if current_user
-        p= render 'shared/comment_form', commentable: answer, comment: Comment.new
+        p= render 'shared/comment_form', resource: answer, comment: Comment.new
+
+      = render 'shared/comment', resource: answer.comments

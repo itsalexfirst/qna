@@ -21,7 +21,7 @@ feature 'User created comment appeared for another user', %q{
       end
 
       Capybara.using_session('user') do
-        within '.question-comments' do
+        within "#question-#{question.id}-comments" do
           click_on 'Add comment'
           fill_in 'Body', with: 'test comment'
 
@@ -49,7 +49,7 @@ feature 'User created comment appeared for another user', %q{
       end
 
       Capybara.using_session('user') do
-        within ".answer-#{answer.id}-comments" do
+        within "#answer-#{answer.id}-comments" do
           click_on 'Add comment'
           fill_in 'Body', with: 'test comment'
 

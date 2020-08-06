@@ -34,11 +34,12 @@
                       method: :delete,
                       remote: true,
                       data: {confirm: 'Are you sure?'}
-  .question-comments
+  div  id="question-#{@question.id}-comments"
+    - if current_user
+      p= render 'shared/comment_form', resource: @question, comment: Comment.new
+
     = render 'shared/comment', resource: @question.comments
 
-    - if current_user
-      p= render 'shared/comment_form', commentable: @question, comment: Comment.new
 
   =render 'answers/form'
 
