@@ -9,8 +9,14 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :questions, concerns: :votable do
-    resources :answers, shallow: true, concerns: :votable do
+  concern :commentable do
+    member do
+      post :comment
+    end
+  end
+
+  resources :questions, concerns: %i[votable commentable] do
+    resources :answers, shallow: true, concerns: %i[votable commentable] do
 
       member do
         patch :best
@@ -21,4 +27,6 @@ Rails.application.routes.draw do
   resources :attachments, only: :destroy
   resources :links, only: :destroy
   resources :awards, only: :index
+
+  mount ActionCable.server => '/cable'
 end

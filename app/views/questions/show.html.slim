@@ -1,40 +1,47 @@
-h1= @question.title
-p= @question.body
-- if @question.award.present?
-  = image_tag(@question.award.image, height: "40")
+.question data-question-id="#{@question.id}"
+  h1= @question.title
+  p= @question.body
+  - if @question.award.present?
+    = image_tag(@question.award.image, height: "40")
 
--if @question.files.attached?
-  - @question.files.each do |file|
-    div id="attachment-#{file.id}"
-      p= link_to file.filename.to_s, url_for(file)
-      - if current_user&.author_of?(@question)
-        = link_to 'Delete file', attachment_path(file),
-                method: :delete,
-                remote: true,
-                data: {confirm: 'Are you sure?'}
+  -if @question.files.attached?
+    - @question.files.each do |file|
+      div id="attachment-#{file.id}"
+        p= link_to file.filename.to_s, url_for(file)
+        - if current_user&.author_of?(@question)
+          = link_to 'Delete file', attachment_path(file),
+                  method: :delete,
+                  remote: true,
+                  data: {confirm: 'Are you sure?'}
 
--if current_user&.author_of?(@question)
-  =link_to 'Delete', question_path(@question),
-                   method: :delete,
-                   data: { confirm: 'Are you sure?' }
+  -if current_user&.author_of?(@question)
+    =link_to 'Delete', question_path(@question),
+                     method: :delete,
+                     data: { confirm: 'Are you sure?' }
 
-.links
-  -unless @question.links.empty?
-    p Links:
-    ul
-      - @question.links.each do |link|
-        div id="link-#{link.id}"
-          -if link.gist?
-            =render 'shared/gist_body', resource: link
-          -else
-            li= link_to link.name, link.url
-          - if current_user&.author_of?(@question)
-            = link_to 'Delete link', link_path(link),
-                    method: :delete,
-                    remote: true,
-                    data: {confirm: 'Are you sure?'}
+  .links
+    -unless @question.links.empty?
+      p Links:
+      ul
+        - @question.links.each do |link|
+          div id="link-#{link.id}"
+            -if link.gist?
+              =render 'shared/gist_body', resource: link
+            -else
+              li= link_to link.name, link.url
+            - if current_user&.author_of?(@question)
+              = link_to 'Delete link', link_path(link),
+                      method: :delete,
+                      remote: true,
+                      data: {confirm: 'Are you sure?'}
+  div  id="question-#{@question.id}-comments"
+    - if current_user
+      p= render 'shared/comment_form', resource: @question, comment: Comment.new
 
-=render 'answers/form'
+    = render 'shared/comment', resource: @question.comments
 
-.answers
-  =render  @question.answers.with_attached_files
+
+  =render 'answers/form'
+
+  .answers
+    =render  @question.answers.with_attached_files

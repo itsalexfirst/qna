@@ -1,0 +1,11 @@
+- res_name = resource.class.name.downcase
+
+- if current_user
+  = link_to 'Add comment', '#', class: 'add-comment', data: { commentable_type: res_name, commentable_id: resource.id }
+
+  = form_with model: comment, url: polymorphic_url([:comment, resource]), class: 'hidden', html: {id: "comment-#{res_name}-#{resource.id}"} do |f|
+    p
+      = f.label :body
+      = f.text_area :body
+
+    p= f.submit 'Comment'

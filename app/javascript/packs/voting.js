@@ -1,5 +1,5 @@
 $(document).on('turbolinks:load', function(){
-    $('.vote_up, .vote_down').on('ajax:success', function(e) {
+    $(document).on('ajax:success', '.vote_up, .vote_down', function(e) {
         e.preventDefault();
         var voteDetail = e.detail[0];
 

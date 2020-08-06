@@ -12,6 +12,7 @@ require('jquery')
 require('packs/answers')
 require('packs/questions')
 require('packs/voting')
+require('packs/comments')
 require('cocoon-js')
 
 

@@ -1,0 +1,4 @@
+-unless resource.empty?
+  -resource.each do |comment|
+    div  id="comment-#{comment.id}"
+      p= comment.body

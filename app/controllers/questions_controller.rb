@@ -2,7 +2,10 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :load_question, only: %i[show edit update destroy]
 
+  after_action :publish_question, only: %i[create]
+
   include Voted
+  include Commented
 
   def index
     @questions = Question.all
@@ -45,6 +48,18 @@ class QuestionsController < ApplicationController
   end
 
   private
+
+  def publish_question
+    return if @question.errors.any?
+    # files = []
+    # link_to file.filename.to_s, url_for(file)
+    ActionCable.server.broadcast('questions', id: @question.id,
+                                              title: @question.title,
+                                              body: @question.body,
+                                              award: @question.publish_award,
+                                              files: @question.publish_files,
+                                              links: @question.links)
+  end
 
   def load_question
     @question = Question.with_attached_files.find(params[:id])
