@@ -55,3 +55,9 @@
           = link_to_add_association 'add link', f, :links, partial: 'shared/link_fields'
       p
       = f.submit 'Save'
+
+    div  id="answer-#{answer.id}-comments"
+      = render 'shared/comment', resource: answer.comments
+
+      - if current_user
+        p= render 'shared/comment_form', commentable: answer, comment: Comment.new

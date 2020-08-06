@@ -1,0 +1,5 @@
+-unless resource.empty?
+  =resource.each do
+    div  id="comment-#{resource.id}"
+    p= resource.body
+

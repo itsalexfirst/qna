@@ -225,4 +225,25 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
+
+  describe 'POST #comment' do
+    let!(:question) { create(:question) }
+    before { login(user) }
+
+    context 'with valid attributes' do
+      it 'saves a new comment in the database' do
+        expect { post :comment, params: { comment: attributes_for(:comment), commentable: question, id: question.id, format: :js } }.to change(Comment, :count).by(1)
+      end
+      it 'assign author' do
+        post :comment, params: { comment: attributes_for(:comment), id: question.id, format: :js }
+        expect(user).to be_author_of(assigns(:comment))
+      end
+    end
+
+    context 'with invalid attributes' do
+      it 'does not save the comment' do
+        expect { post :comment, params: { comment: attributes_for(:comment, :invalid) , commentable: question, id: question.id, format: :js} }.to_not change(Comment, :count)
+      end
+    end
+  end
 end

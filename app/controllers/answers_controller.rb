@@ -6,6 +6,7 @@ class AnswersController < ApplicationController
   after_action :publish_answer, only: %i[create]
 
   include Voted
+  include Commented
 
   def create
     @answer = @question.answers.new(answer_params)
