@@ -11,4 +11,6 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
     end
   end
 
+ 
+
 end
