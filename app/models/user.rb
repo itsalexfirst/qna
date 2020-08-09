@@ -6,13 +6,16 @@ class User < ApplicationRecord
          :recoverable,
          :rememberable,
          :validatable,
+         :confirmable,
          :omniauthable, omniauth_providers: %i[github yandex]
 
   has_many :questions, foreign_key: 'author_id', dependent: :destroy
   has_many :answers, foreign_key: 'author_id', dependent: :destroy
-  has_many :awards
+  has_many :awards, dependent: :destroy
+  has_many :comments, dependent: :destroy
 
   has_many :authorizations, dependent: :destroy
+
 
   def author_of?(res)
     res.author_id == id
