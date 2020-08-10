@@ -23,7 +23,20 @@ feature 'User can sign up', %q{
       fill_in 'Password confirmation', with: 'password'
       click_button 'Sign up'
 
-      expect(page).to have_content 'You have signed up successfully'
+      expect(page).to have_content 'A message with a confirmation link has been sent to your email address'
+    end
+
+    scenario 'confirm email' do
+      click_link 'Sign up'
+      fill_in 'Email', with: 'new@mail.com'
+      fill_in 'Password', with: 'password'
+      fill_in 'Password confirmation', with: 'password'
+      click_button 'Sign up'
+
+      open_email('new@mail.com')
+      current_email.click_link 'Confirm my account'
+
+      expect(page).to have_content 'Your email address has been successfully confirmed'
     end
 
     scenario 'tries to sign up with error' do
