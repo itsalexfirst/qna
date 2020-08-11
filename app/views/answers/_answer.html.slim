@@ -8,20 +8,20 @@
       - answer.files.each do |file|
         div id="attachment-#{file.id}"
           p= link_to file.filename.to_s, url_for(file)
-          - if current_user&.author_of?(answer)
+          - if can?(:destroy, file)
             = link_to 'Delete file', attachment_path(file),
                     method: :delete,
                     remote: true,
                     data: {confirm: 'Are you sure?'}
 
-    -if current_user&.author_of?(answer)
+    -if can?(:update, answer)
       = link_to 'Delete Answer', answer_path(answer),
                  method: :delete,
                  remote: true,
                  data: { confirm: 'Are you sure?' }
       = link_to 'Edit Answer', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
 
-    - if current_user&.author_of?(answer.question)
+    - if can?(:best, answer)
       = link_to 'Best', best_answer_path(answer),
               method: :patch,
               remote: true,
@@ -36,7 +36,7 @@
                 = render 'shared/gist_body', resource: link
               - else
                 li= link_to link.name, link.url
-              - if current_user&.author_of?(answer)
+              - if can?(:destroy, link)
                 = link_to 'Delete link', link_path(link),
                         method: :delete,
                         remote: true,
@@ -57,7 +57,7 @@
       = f.submit 'Save'
 
     div  id="answer-#{answer.id}-comments"
-      - if current_user
+      - if can?(:comment, answer)
         p= render 'shared/comment_form', resource: answer, comment: Comment.new
 
       = render 'shared/comment', resource: answer.comments

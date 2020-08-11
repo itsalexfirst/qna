@@ -1,2 +1,2 @@
--if current_user
+-if can?(:index, Award)
   p= link_to 'Awards', awards_path

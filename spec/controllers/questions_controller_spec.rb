@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  let(:question) { create(:question) }
+  let(:question) { create(:question, author: user) }
   let(:user) { create(:user) }
 
   describe 'GET #index' do
@@ -145,9 +145,9 @@ RSpec.describe QuestionsController, type: :controller do
         expect(question.body).to_not eq 'new body'
       end
 
-      it 'render update template' do
+      it 'return forbidden' do
         post :update, params: { id: question, question: { body: 'new body'} }, format: :js
-        expect(response).to render_template :update
+        expect(response).to have_http_status(:forbidden)
       end
     end
   end
@@ -175,9 +175,9 @@ RSpec.describe QuestionsController, type: :controller do
         expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
       end
 
-      it 'redirect to current question' do
+      it 'redirect to root path' do
         delete :destroy, params: { id: question }
-        expect(response).to redirect_to question_path
+        expect(response).to redirect_to root_path
       end
     end
   end
