@@ -8,6 +8,8 @@ class AnswersController < ApplicationController
   include Voted
   include Commented
 
+  authorize_resource
+
   def create
     @answer = @question.answers.new(answer_params)
     @answer.author = current_user
@@ -24,7 +26,7 @@ class AnswersController < ApplicationController
   end
 
   def best
-    @answer.best! if current_user.author_of?(@answer.question)
+    @answer.best! #if current_user.author_of?(@answer.question)
     @question = @answer.question
   end
 
