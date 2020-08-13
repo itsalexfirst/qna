@@ -39,5 +39,7 @@ class Ability
     can :destroy, ActiveStorage::Attachment, record: { author_id: user.id }
     can :index, Award, { user_id: user.id }
     can :destroy, Link, linkable: { author_id: user.id }
+
+    can [:index, :me], User
   end
 end

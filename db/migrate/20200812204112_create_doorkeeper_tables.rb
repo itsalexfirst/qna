@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class CreateDoorkeeperTables < ActiveRecord::Migration[6.0]
   def change
     create_table :oauth_applications do |t|
@@ -26,7 +24,7 @@ class CreateDoorkeeperTables < ActiveRecord::Migration[6.0]
       t.text     :redirect_uri,      null: false
       t.datetime :created_at,        null: false
       t.datetime :revoked_at
-      t.string   :scopes,            null: false, default: ''
+      t.string   :scopes
     end
 
     add_index :oauth_access_grants, :token, unique: true
@@ -38,9 +36,6 @@ class CreateDoorkeeperTables < ActiveRecord::Migration[6.0]
 
     create_table :oauth_access_tokens do |t|
       t.references :resource_owner, index: true
-
-      # Remove `null: false` if you are planning to use Password
-      # Credentials Grant flow that doesn't require an application.
       t.references :application,    null: false
 
       # If you use a custom token generator you may need to change this column
@@ -57,19 +52,12 @@ class CreateDoorkeeperTables < ActiveRecord::Migration[6.0]
       t.datetime :created_at, null: false
       t.string   :scopes
 
-      # The authorization server MAY issue a new refresh token, in which case
-      # *the client MUST discard the old refresh token* and replace it with the
-      # new refresh token. The authorization server MAY revoke the old
-      # refresh token after issuing a new refresh token to the client.
-      # @see https://tools.ietf.org/html/rfc6749#section-6
-      #
-      # Doorkeeper implementation: if there is a `previous_refresh_token` column,
+      # If there is a previous_refresh_token column,
       # refresh tokens will be revoked after a related access token is used.
-      # If there is no `previous_refresh_token` column, previous tokens are
-      # revoked as soon as a new access token is created.
-      #
-      # Comment out this line if you want refresh tokens to be instantly
-      # revoked after use.
+      # If there is no previous_refresh_token column,
+      # previous tokens are revoked as soon as a new access token is created.
+      # Comment out this line if you'd rather have refresh tokens
+      # instantly revoked.
       t.string   :previous_refresh_token, null: false, default: ""
     end
 
