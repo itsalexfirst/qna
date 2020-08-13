@@ -6,8 +6,4 @@ class QuestionSerializer < ActiveModel::Serializer
   def files
     object.publish_files
   end
-
-
-
-
 end
