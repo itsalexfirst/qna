@@ -1,5 +1,5 @@
 class Api::V1::QuestionsController < Api::V1::BaseController
-  before_action :load_question, only: %i[show edit update destroy]
+  before_action :load_question, only: %i[show update destroy]
 
   authorize_resource class: Question
 
@@ -28,6 +28,10 @@ class Api::V1::QuestionsController < Api::V1::BaseController
     else
       render json: { errors: @question.errors.full_messages }, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    @question.destroy
   end
 
   private

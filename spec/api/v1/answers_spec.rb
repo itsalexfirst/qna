@@ -104,10 +104,30 @@ describe 'Questions API', type: :request do
       let(:api_path) { "/api/v1/answers/#{answer.id}" }
       let(:method) { :patch }
 
+      it_behaves_like 'API Authorizable' do
+        let(:method) { :patch }
+      end
+
       it_behaves_like 'API Update Resource', Answer do
         let(:update_attrs) { { body: 'Updated body' }  }
         let(:invalid_attrs) { { body: nil } }
       end
+    end
+
+    describe 'DELETE /api/v1/answers/:id' do
+
+      let(:user) { create(:user) }
+      let(:access_token) { create(:access_token, resource_owner_id: user.id) }
+      let!(:answer) { create(:answer, question: question, author: user) }
+
+      let(:api_path) { "/api/v1/answers/#{answer.id}" }
+      let(:method) { :delete }
+
+      it_behaves_like 'API Authorizable' do
+        let(:method) { :delete }
+      end
+
+      it_behaves_like 'API Delete Resource', Answer
     end
   end
 end

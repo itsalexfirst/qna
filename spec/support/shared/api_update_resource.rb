@@ -48,5 +48,9 @@ RSpec.shared_examples "API Update Resource" do |model|
     it 'returns 403 status' do
       expect(response.status).to eq 403
     end
+
+    it 'not change resource' do
+      expect(model.all).to include(old_resource)
+    end
   end
 end
