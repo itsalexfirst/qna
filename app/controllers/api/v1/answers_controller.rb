@@ -1,8 +1,8 @@
 class Api::V1::AnswersController < Api::V1::BaseController
   before_action :load_question, only: %i[index create]
-  before_action :load_answer, only: %i[show]
+  before_action :load_answer, only: %i[show update]
 
-  authorize_resource
+  authorize_resource class: Answer
 
   def index
     render json: @question.answers, each_serializer: AnswersSerializer

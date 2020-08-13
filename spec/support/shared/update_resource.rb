@@ -4,6 +4,7 @@ RSpec.shared_examples "API Update Resource" do |model|
   let(:old_resource) { model.first }
   let(:res_id) { old_resource.id }
 
+
   subject(:update_resource) { patch api_path,
                                     params: { access_token: access_token.token, class_sym => update_attrs }.to_json,
                                     headers: headers }
