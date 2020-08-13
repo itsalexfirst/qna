@@ -22,7 +22,7 @@ RSpec.shared_examples "API Create Resource" do |model|
         model.find(id)
       end
 
-      it 'returned in the response 201' do
+      it 'returned the response 201' do
         expect(response).to be_successful
       end
 

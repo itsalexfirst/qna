@@ -5,6 +5,7 @@ describe 'Questions API', type: :request do
                   "ACCEPT" => 'application/json'}}
 
   let(:question) { create(:question) }
+  let(:another_user) { create(:user) }
 
   describe 'GET /api/v1/questions/:question_id/answers' do
 
@@ -90,6 +91,21 @@ describe 'Questions API', type: :request do
 
       it_behaves_like 'API Create Resource', Answer do
         let(:create_attrs) { { body: 'New body', question_id: question.id } }
+      end
+    end
+
+    describe 'PUT /api/v1/answers/:id' do
+
+      let(:user) { create(:user) }
+      let(:access_token) { create(:access_token, resource_owner_id: user.id) }
+      let!(:answer) { create(:answer, question: question, author: user) }
+
+      let(:api_path) { "/api/v1/answers/#{answer.id}" }
+      let(:method) { :patch }
+
+      it_behaves_like 'API Update Resource', Question do
+        let(:update_attrs) { { body: 'Updated body', question_id: question.id } }
+        let(:invalid_attrs) { { body: nil } }
       end
     end
   end

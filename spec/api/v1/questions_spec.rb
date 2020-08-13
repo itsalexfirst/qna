@@ -4,6 +4,9 @@ describe 'Questions API', type: :request do
   let(:headers) {{"CONTENT_TYPE" => "application/json",
                   "ACCEPT" => 'application/json'}}
 
+  let(:another_user) { create(:user) }
+  let(:another_access_token) { create(:access_token, resource_owner_id: another_user.id) }
+
   describe 'GET /api/v1/questions' do
     let(:api_path) { '/api/v1/questions' }
 
@@ -109,4 +112,20 @@ describe 'Questions API', type: :request do
       let(:create_attrs) { { title: 'New question', body: 'New body' } }
     end
   end
+
+  describe 'PUT /api/v1/questions/:id' do
+
+    let(:user) { create(:user) }
+    let(:access_token) { create(:access_token, resource_owner_id: user.id) }
+    let!(:question) { create(:question, author: user) }
+
+    let(:api_path) { "/api/v1/questions/#{question.id}" }
+    let(:method) { :patch }
+
+    it_behaves_like 'API Update Resource', Question do
+      let(:update_attrs) { { title: 'Updated question', body: 'Updated body' } }
+      let(:invalid_attrs) { { title: nil, body: nil } }
+    end
+  end
+
 end
