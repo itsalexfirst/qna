@@ -93,4 +93,20 @@ describe 'Questions API', type: :request do
       let(:resource_with_files_response) { question_response['files'] }
     end
   end
+
+  describe 'POST /api/v1/questions' do
+    let(:api_path) { '/api/v1/questions' }
+    let(:method) { :post }
+
+    let(:user) { create(:user) }
+    let(:access_token) { create(:access_token, resource_owner_id: user.id) }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :post }
+    end
+
+    it_behaves_like 'API Create Resource', Question do
+      let(:create_attrs) { { title: 'New question', body: 'New body' } }
+    end
+  end
 end

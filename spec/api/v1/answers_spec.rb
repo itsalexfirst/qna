@@ -4,8 +4,10 @@ describe 'Questions API', type: :request do
   let(:headers) {{"CONTENT_TYPE" => "application/json",
                   "ACCEPT" => 'application/json'}}
 
+  let(:question) { create(:question) }
+
   describe 'GET /api/v1/questions/:question_id/answers' do
-    let(:question) { create(:question) }
+
     let(:api_path) { "/api/v1/questions/#{question.id}/answers" }
 
     it_behaves_like 'API Authorizable' do
@@ -73,6 +75,22 @@ describe 'Questions API', type: :request do
 
     it_behaves_like 'API Attachable' do
       let(:resource_with_files_response) { answer_response['files'] }
+    end
+
+    describe 'POST /api/v1/questions/:question_id/answers' do
+      let(:api_path) { "/api/v1/questions/#{question.id}/answers" }
+      let(:method) { :post }
+
+      let(:user) { create(:user) }
+      let(:access_token) { create(:access_token, resource_owner_id: user.id) }
+
+      it_behaves_like 'API Authorizable' do
+        let(:method) { :post }
+      end
+
+      it_behaves_like 'API Create Resource', Answer do
+        let(:create_attrs) { { body: 'New body', question_id: question.id } }
+      end
     end
   end
 end
