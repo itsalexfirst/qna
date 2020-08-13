@@ -39,7 +39,7 @@ describe 'Questions API', type: :request do
       end
 
       it 'contains short title' do
-        expect(question_response['short_title']).to eq question.title.truncate(5)
+        expect(question_response['short_title']).to eq question.title.truncate(7)
       end
 
       describe 'answers' do
@@ -56,6 +56,41 @@ describe 'Questions API', type: :request do
           end
         end
       end
+    end
+  end
+
+  describe 'GET /api/v1/questions/:id' do
+
+    let(:api_path) { "/api/v1/questions/#{question.id}" }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :get }
+    end
+
+    let(:access_token) { create(:access_token) }
+    let!(:question) { create(:question, :with_file) }
+    let(:question_response) { json['question'] }
+
+    let!(:comments) { create_list(:comment, 3, commentable: question) }
+    let(:comment) { comments.first }
+
+    let!(:links) { create_list(:link, 3, linkable: question) }
+    let(:link) { links.last }
+
+    let(:file) { question.files.first }
+
+    before { get api_path, params: { access_token: access_token.token }, headers: headers }
+
+    it_behaves_like 'API Commentable' do
+      let(:resource_with_comments_response) { question_response['comments'] }
+    end
+
+    it_behaves_like 'API Linkable' do
+      let(:resource_with_links_response) { question_response['links'] }
+    end
+
+    it_behaves_like 'API Attachable' do
+      let(:resource_with_files_response) { question_response['files'] }
     end
   end
 end
