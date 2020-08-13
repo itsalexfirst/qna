@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-  describe 'Profile API', type: :request do
+describe 'Profile API', type: :request do
   let(:headers) { { 'CONTENT TYPE' => 'application/json',
-                 'ACCEPT' => 'application/json' } }
+                    'ACCEPT' => 'application/json' } }
 
   describe 'GET /api/v1/profiles/me' do
     let(:api_path) { '/api/v1/profiles/me' }

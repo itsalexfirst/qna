@@ -15,7 +15,7 @@ class Ability
     end
   end
 
-  def  guest_abilities
+  def guest_abilities
     can :read, :all
     cannot :index, Award
   end
@@ -27,7 +27,7 @@ class Ability
   def user_abilities
     guest_abilities
     can :create, [Question, Answer]
-    can [:update, :destroy], [Question, Answer], { author_id: user.id }
+    can %i[update destroy], [Question, Answer], { author_id: user.id }
     can :comment, [Question, Answer]
 
     can :best, Answer, question: { author_id: user.id }
@@ -40,6 +40,6 @@ class Ability
     can :index, Award, { user_id: user.id }
     can :destroy, Link, linkable: { author_id: user.id }
 
-    can [:index, :me], User
+    can %i[index me], User
   end
 end
