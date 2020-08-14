@@ -37,7 +37,7 @@ gem 'omniauth-github'
 gem 'omniauth-yandex'
 gem 'letter_opener'
 gem 'cancancan'
-gem 'doorkeeper', '5.1.0'
+gem 'doorkeeper', '5.1.1'
 gem 'active_model_serializers', '~> 0.10'
 gem 'oj'
 
