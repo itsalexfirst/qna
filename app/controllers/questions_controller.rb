@@ -53,6 +53,7 @@ class QuestionsController < ApplicationController
 
   def publish_question
     return if @question.errors.any?
+
     # files = []
     # link_to file.filename.to_s, url_for(file)
     ActionCable.server.broadcast('questions', id: @question.id,
@@ -70,7 +71,7 @@ class QuestionsController < ApplicationController
   def question_params
     params.require(:question).permit(:title, :body,
                                      files: [],
-                                     links_attributes: [:name, :url, :_destroy],
-                                     award_attributes: [:title, :image])
+                                     links_attributes: %i[name url _destroy],
+                                     award_attributes: %i[title image])
   end
 end

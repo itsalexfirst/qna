@@ -1,13 +1,14 @@
-RSpec.shared_examples "API Update Resource" do |model|
+RSpec.shared_examples 'API Update Resource' do |model|
   # let(:class_str) { model.to_s.underscore }
   let(:class_sym) { model.to_s.underscore.to_sym }
   let(:old_resource) { model.first }
   let(:res_id) { old_resource.id }
 
-
-  subject(:update_resource) { patch api_path,
-                                    params: { access_token: access_token.token, class_sym => update_attrs }.to_json,
-                                    headers: headers }
+  subject(:update_resource) do
+    patch api_path,
+          params: { access_token: access_token.token, class_sym => update_attrs }.to_json,
+          headers: headers
+  end
 
   describe 'author of resource' do
     describe 'with valid params' do
@@ -40,7 +41,6 @@ RSpec.shared_examples "API Update Resource" do |model|
       end
     end
   end
-
 
   context 'not author of question' do
     before { patch api_path, params: { access_token: another_access_token.token, class_sym => update_attrs }.to_json, headers: headers }

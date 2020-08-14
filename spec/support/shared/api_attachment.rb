@@ -1,7 +1,5 @@
 shared_examples_for 'API Attachable' do
-
   context 'file' do
-
     it 'returns list of files' do
       expect(resource_with_files_response.size).to eq 1
     end

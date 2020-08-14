@@ -16,7 +16,6 @@ class User < ApplicationRecord
 
   has_many :authorizations, dependent: :destroy
 
-
   def author_of?(res)
     res.author_id == id
   end
@@ -26,6 +25,6 @@ class User < ApplicationRecord
   end
 
   def create_authorization(auth)
-    self.authorizations.create(provider: auth.provider, uid: auth.uid)
+    authorizations.create(provider: auth.provider, uid: auth.uid)
   end
 end

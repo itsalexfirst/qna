@@ -1,5 +1,4 @@
 class OauthCallbacksController < Devise::OmniauthCallbacksController
-
   def yandex
     callback('yandex')
   end
@@ -16,15 +15,12 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
         sign_in_and_redirect @user, event: :authentication
         set_flash_message(:notice, :success, kind: provider) if is_navigational_format?
       else
-        #set_email
-        #@user.send_confirmation_instructions
+        # set_email
+        # @user.send_confirmation_instructions
         redirect_to root_path, alert: 'update your email'
       end
     else
       redirect_to root_path, alert: 'something went wrong'
     end
   end
-
-
-
 end

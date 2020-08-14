@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe LinksController, type: :controller do
-
   describe 'DELETE #destroy' do
     let!(:user) { create(:user) }
     let!(:question) { create(:question) }
@@ -33,5 +32,4 @@ RSpec.describe LinksController, type: :controller do
       end
     end
   end
-
 end

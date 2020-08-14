@@ -1,11 +1,10 @@
 require 'rails_helper'
 
-feature 'User can sign up', %q{
+feature 'User can sign up', "
   In order to ask questions
   As an unregistred user
   I'd Like to be able sign up
-} do
-
+" do
   given(:user) { create(:user) }
 
   background { visit root_path }
@@ -15,7 +14,7 @@ feature 'User can sign up', %q{
     expect(page).to_not have_link 'Sign up'
   end
 
-  describe 'Unregistred user' do
+  describe 'Unregistered user' do
     scenario 'tries to sign up' do
       click_link 'Sign up'
       fill_in 'Email', with: 'new@mail.com'
@@ -47,13 +46,13 @@ feature 'User can sign up', %q{
     end
   end
 
-  scenario 'User tries to sign up with registred email' do
+  scenario 'User tries to sign up with registered email' do
     click_link 'Sign up'
     fill_in 'Email', with: user.email
     fill_in 'Password', with: user.password
     fill_in 'Password confirmation', with: user.password
     click_button 'Sign up'
 
-    expect(page).to have_content "Email has already been taken"
+    expect(page).to have_content 'Email has already been taken'
   end
 end

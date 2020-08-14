@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :award do
-    title { "MyString" }
+    title { 'MyString' }
     question
     user
   end

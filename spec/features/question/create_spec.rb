@@ -1,15 +1,13 @@
 require 'rails_helper'
 
-feature 'User can create question', %q{
+feature 'User can create question', '
   In order to qet answer from community
   As an authenticated user
   I`d like to be able to ask the question
-} do
-
+' do
   given(:user) { create(:user) }
 
   describe 'Authenticated user' do
-
     background do
       sign_in(user)
 
@@ -30,7 +28,7 @@ feature 'User can create question', %q{
     scenario 'asks a question with attached file' do
       fill_in 'Title', with: 'Test question'
       fill_in 'Body', with: 'test text'
-      attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+      attach_file 'File', %W[#{Rails.root}/spec/rails_helper.rb #{Rails.root}/spec/spec_helper.rb]
       click_on 'Ask'
 
       expect(page).to have_link 'rails_helper.rb'
@@ -47,7 +45,6 @@ feature 'User can create question', %q{
   scenario 'Unauthenticated user tries to ask a question' do
     visit questions_path
 
-    expect(page).to_not have_content "Ask question"
+    expect(page).to_not have_content 'Ask question'
   end
-
 end

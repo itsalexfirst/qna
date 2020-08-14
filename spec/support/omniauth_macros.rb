@@ -18,18 +18,18 @@ module OmniauthMacros
 
   def mock_auth_github
     OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new({
-        'provider' => 'github',
-        'uid' => '123456',
-        'info' => {
-            'email' => 'email@test.com',
-        }
-    })
+                                                                  'provider' => 'github',
+                                                                  'uid' => '123456',
+                                                                  'info' => {
+                                                                    'email' => 'email@test.com'
+                                                                  }
+                                                                })
   end
 
   def mock_auth_yandex
     OmniAuth.config.mock_auth[:yandex] = OmniAuth::AuthHash.new({
-        'provider' => 'yandex',
-        'uid' => '123456'
-    })
+                                                                  'provider' => 'yandex',
+                                                                  'uid' => '123456'
+                                                                })
   end
 end

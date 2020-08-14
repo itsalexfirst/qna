@@ -22,13 +22,11 @@ class Question < ApplicationRecord
   def publish_files
     all_files = []
     files.each { |file| all_files.push(id: file.id, name: file.filename.to_s, url: file.service_url) }
-    return all_files
+    all_files
   end
 
   def publish_award
     file = []
-    if award.present?
-      file.push(title: award.title, url: award.image.service_url)
-    end
+    file.push(title: award.title, url: award.image.service_url) if award.present?
   end
 end

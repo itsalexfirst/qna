@@ -1,11 +1,10 @@
 require 'rails_helper'
 
-feature 'Only Author can delete question link', %q{
+feature 'Only Author can delete question link', '
   In order to delete question link from community
   As an authenticated user
   I`d like to be able to delete my own question link
-} do
-
+' do
   given!(:author) { create(:user) }
   given!(:user) { create(:user) }
   given!(:question) { create(:question, author: author) }
@@ -23,7 +22,6 @@ feature 'Only Author can delete question link', %q{
       expect(page).to_not have_link link.name
     end
 
-
     scenario 'as NOT Author tries to delete someone question link' do
       sign_in(user)
       visit question_path(question)
@@ -39,5 +37,4 @@ feature 'Only Author can delete question link', %q{
     expect(page).to have_content question.title
     expect(page).to_not have_link 'Delete link'
   end
-
 end

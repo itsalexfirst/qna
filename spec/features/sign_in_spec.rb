@@ -1,11 +1,10 @@
 require 'rails_helper'
 
-feature 'User can sign in', %q{
+feature 'User can sign in', "
   In order to ask questions
   As an unauthenticated user
   I'd Like to be able sign in
-} do
-
+" do
   given(:user) { create(:user) }
   given(:user_unconfirmed) { create(:user, confirmed_at: nil) }
 
@@ -56,4 +55,3 @@ feature 'User can sign in', %q{
     expect(page).to have_content 'update your email'
   end
 end
-

@@ -1,12 +1,14 @@
-RSpec.shared_examples "API Delete Resource" do |model|
+RSpec.shared_examples 'API Delete Resource' do |model|
   # let(:class_str) { model.to_s.underscore }
   let(:class_sym) { model.to_s.underscore.to_sym }
   let(:old_resource) { model.first }
   let(:res_id) { old_resource.id }
 
-  subject(:delete_resource) { delete api_path,
-                                    params: { access_token: access_token.token }.to_json,
-                                    headers: headers }
+  subject(:delete_resource) do
+    delete api_path,
+           params: { access_token: access_token.token }.to_json,
+           headers: headers
+  end
 
   describe 'author of resource' do
     describe 'deleted resource' do
@@ -34,4 +36,3 @@ RSpec.shared_examples "API Delete Resource" do |model|
     end
   end
 end
-

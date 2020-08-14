@@ -7,9 +7,5 @@ FactoryBot.define do
     trait :vote_down do
       vote { -1 }
     end
-
-
   end
-
-
 end

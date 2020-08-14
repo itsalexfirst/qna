@@ -1,15 +1,15 @@
 require 'rails_helper'
 
-feature 'User can see awards list', %q{
+feature 'User can see awards list', '
   In order to see awards
   As authenticated user
   I`d like to be able to get my awards list
-} do
-  given!(:user) { create(:user)}
+' do
+  given!(:user) { create(:user) }
   given!(:award) { create(:award) }
   given!(:question) { create(:question, award: award) }
   given!(:answer) { create(:answer, question: question, author: user) }
-  given!(:other_user) { create(:user)}
+  given!(:other_user) { create(:user) }
 
   background do
     answer.best!

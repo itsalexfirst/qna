@@ -24,7 +24,6 @@ RSpec.describe Answer, type: :model do
     let!(:question_with_award) { create(:question, award: award, author: user) }
     let!(:answer_for_awarded_question) { create(:answer, question: question_with_award) }
 
-
     it 'choose another answer as best' do
       expect(answer).to be_best
 
@@ -89,7 +88,6 @@ RSpec.describe Answer, type: :model do
     it 'one user vote up' do
       expect(answer.votes_sum).to eq 1
     end
-
 
     it 'two users vote' do
       expect(another_answer.votes_sum).to eq 0

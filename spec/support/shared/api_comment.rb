@@ -1,7 +1,5 @@
 shared_examples_for 'API Commentable' do
-
   context 'comment' do
-
     it 'returns list of comments' do
       expect(resource_with_comments_response.size).to eq 3
     end

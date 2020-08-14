@@ -27,7 +27,7 @@ RSpec.describe User, type: :model do
   describe '.find_for_oauth' do
     let!(:user) { create(:user) }
     let(:auth) { OmniAuth::AuthHash.new(provider: 'github', uid: '123456') }
-    let(:service) { double('FindForAuthService')}
+    let(:service) { double('FindForAuthService') }
 
     it 'calls FindForAuthService' do
       expect(FindForOauthService).to receive(:new).with(auth).and_return(service)

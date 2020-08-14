@@ -1,11 +1,10 @@
 require 'rails_helper'
 
-feature 'Only Author can delete answer', %q{
+feature 'Only Author can delete answer', '
   In order to delete answer from community
   As an authenticated user
   I`d like to be able to delete my own answer
-} do
-
+' do
   given!(:author) { create(:user) }
   given!(:user) { create(:user) }
 
@@ -14,8 +13,6 @@ feature 'Only Author can delete answer', %q{
 
   given!(:users_question) { create(:question, author: user) }
   given!(:users_answer) { create(:answer, question: users_question, author: user) }
-
-
 
   describe 'Authenticated user', js: true do
     scenario 'as Author can delete own answer' do
@@ -57,5 +54,4 @@ feature 'Only Author can delete answer', %q{
     expect(page).to have_content authors_answer.body
     expect(page).to_not have_link 'Delete Answer'
   end
-
 end

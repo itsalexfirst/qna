@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe AttachmentsController, type: :controller do
-
   describe 'DELETE #destroy' do
     let!(:question) { create(:question) }
     let!(:user) { create(:user) }
@@ -10,7 +9,7 @@ RSpec.describe AttachmentsController, type: :controller do
     context 'author of questions' do
       before { login(question.author) }
 
-      it 'deletes atachment' do
+      it 'deletes attachment' do
         expect { delete :destroy, params: { id: question.files.first.id }, format: :js }.to change(question.files, :count).by(-1)
       end
 
@@ -33,5 +32,4 @@ RSpec.describe AttachmentsController, type: :controller do
       end
     end
   end
-
 end

@@ -2,11 +2,11 @@ require 'rails_helper'
 
 RSpec.describe OauthCallbacksController, type: :controller do
   before do
-    @request.env["devise.mapping"] = Devise.mappings[:user]
+    @request.env['devise.mapping'] = Devise.mappings[:user]
   end
 
   describe 'Github' do
-    let(:oauth_data) { { "provider" => "github", "uid" => "60115052"}}
+    let(:oauth_data) { { 'provider' => 'github', 'uid' => '60115052' } }
 
     it 'finds user from oauth data' do
       allow(request.env).to receive(:[]).and_call_original
@@ -16,7 +16,7 @@ RSpec.describe OauthCallbacksController, type: :controller do
     end
 
     context 'user exist' do
-      let!(:user) {create(:user)}
+      let!(:user) { create(:user) }
 
       before do
         allow(User).to receive(:find_for_oauth).and_return(user)
@@ -47,7 +47,7 @@ RSpec.describe OauthCallbacksController, type: :controller do
   end
 
   describe 'Yandex' do
-    let(:oauth_data) { { "provider" => "yandex", "uid" => "60115052"}}
+    let(:oauth_data) { { 'provider' => 'yandex', 'uid' => '60115052' } }
 
     it 'finds user from oauth data' do
       allow(request.env).to receive(:[]).and_call_original
@@ -57,7 +57,7 @@ RSpec.describe OauthCallbacksController, type: :controller do
     end
 
     context 'user exist' do
-      let!(:user) {create(:user)}
+      let!(:user) { create(:user) }
 
       before do
         allow(User).to receive(:find_for_oauth).and_return(user)
@@ -86,5 +86,4 @@ RSpec.describe OauthCallbacksController, type: :controller do
       end
     end
   end
-
 end

@@ -1,11 +1,10 @@
 require 'rails_helper'
 
-feature 'User can edit his answer', %q{
+feature 'User can edit his answer', '
   In order to correct mistakes
   As an author user
   I`d like to be able to edit my answer
-} do
-
+' do
   given!(:user) { create(:user) }
   given(:not_author) { create(:user) }
   given!(:question) { create(:question) }
@@ -37,7 +36,7 @@ feature 'User can edit his answer', %q{
       click_on 'Edit Answer'
 
       within '.answers' do
-        attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+        attach_file 'File', %W[#{Rails.root}/spec/rails_helper.rb #{Rails.root}/spec/spec_helper.rb]
         click_on 'Save'
       end
 

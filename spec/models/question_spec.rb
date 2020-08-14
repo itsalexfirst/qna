@@ -8,7 +8,6 @@ RSpec.describe Question, type: :model do
   it { should have_many(:votes).dependent(:destroy) }
   it { should have_many(:comments).dependent(:destroy) }
 
-
   it { should validate_presence_of :title }
   it { should validate_presence_of :body }
 
@@ -61,7 +60,6 @@ RSpec.describe Question, type: :model do
     it 'one user vote up' do
       expect(question.votes_sum).to eq 1
     end
-
 
     it 'two users vote' do
       expect(another_question.votes_sum).to eq 0

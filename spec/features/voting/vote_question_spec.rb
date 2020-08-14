@@ -1,17 +1,15 @@
 require 'rails_helper'
 
-feature 'User can vote for question', %q{
+feature 'User can vote for question', '
   In order to mark useful question from community
   As an authenticated user
   I`d like to be able to vote for the question
-} do
-
+' do
   given(:user) { create(:user) }
   given!(:question) { create(:question) }
   given!(:user_question) { create(:question, author: user) }
 
   describe 'Authenticated user', js: true do
-
     background do
       sign_in(user)
 
@@ -19,7 +17,6 @@ feature 'User can vote for question', %q{
     end
 
     scenario 'vote up for a question' do
-
       within "#question-#{question.id}" do
         click_on 'vote up'
 
@@ -44,7 +41,6 @@ feature 'User can vote for question', %q{
     end
 
     scenario 'tries to vote up second time for question' do
-
       within "#question-#{question.id}" do
         2.times { click_on 'vote up' }
 
@@ -53,7 +49,6 @@ feature 'User can vote for question', %q{
     end
 
     scenario 'tries to vote down second time for question' do
-
       within "#question-#{question.id}" do
         2.times { click_on 'vote down' }
 

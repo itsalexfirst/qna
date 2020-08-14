@@ -1,11 +1,10 @@
 require 'rails_helper'
 
-feature 'User can edit his question', %q{
+feature 'User can edit his question', '
   In order to correct mistakes
   As an author user
   I`d like to be able to edit my question
-} do
-
+' do
   given!(:user) { create(:user) }
   given(:not_author) { create(:user) }
   given!(:question) { create(:question, author: user) }
@@ -34,7 +33,7 @@ feature 'User can edit his question', %q{
 
       within "#question-#{question.id}" do
         click_on 'Edit Question'
-        attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+        attach_file 'File', %W[#{Rails.root}/spec/rails_helper.rb #{Rails.root}/spec/spec_helper.rb]
         click_on 'Save'
       end
 

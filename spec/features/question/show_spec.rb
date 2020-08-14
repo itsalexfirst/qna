@@ -1,11 +1,10 @@
 require 'rails_helper'
 
-feature 'User can see question and answers', %q{
+feature 'User can see question and answers', '
   In order to see questions and answers of community
   As an guest or authenticated user
   I`d like to be able to see question and its answers
-} do
-
+' do
   given(:user) { create(:user) }
   given(:question) { create(:question) }
   given(:answer) { create_list(:answer, 3, question: question) }

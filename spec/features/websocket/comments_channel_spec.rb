@@ -1,15 +1,15 @@
 require 'rails_helper'
 
-feature 'User created comment appeared for another user', %q{
+feature 'User created comment appeared for another user', '
   In order to to provide additional information
   As an authenticated user
   I`d like to be able to comment selected resource and it appeared for another user
-} do
+' do
   given(:user) { create(:user) }
   given!(:question) { create(:question) }
   given!(:answer) { create(:answer, question: question) }
 
-  describe "Multiple sessions", js: true do
+  describe 'Multiple sessions', js: true do
     scenario "questions comment appears on another user's page" do
       Capybara.using_session('user') do
         sign_in(user)

@@ -26,7 +26,7 @@ class AnswersController < ApplicationController
   end
 
   def best
-    @answer.best! #if current_user.author_of?(@answer.question)
+    @answer.best! # if current_user.author_of?(@answer.question)
     @question = @answer.question
   end
 
@@ -53,6 +53,6 @@ class AnswersController < ApplicationController
   def answer_params
     params.require(:answer).permit(:body,
                                    files: [],
-                                   links_attributes: [:name, :url])
+                                   links_attributes: %i[name url])
   end
 end

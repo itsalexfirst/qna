@@ -1,7 +1,5 @@
 shared_examples_for 'API Linkable' do
-
   context 'link' do
-
     it 'returns list of links' do
       expect(resource_with_links_response.size).to eq 3
     end

@@ -1,8 +1,10 @@
 require 'rails_helper'
 
 describe 'Questions API', type: :request do
-  let(:headers) {{"CONTENT_TYPE" => "application/json",
-                  "ACCEPT" => 'application/json'}}
+  let(:headers) do
+    { 'CONTENT_TYPE' => 'application/json',
+      'ACCEPT' => 'application/json' }
+  end
 
   let(:another_user) { create(:user) }
   let(:another_access_token) { create(:access_token, resource_owner_id: another_user.id) }
@@ -63,7 +65,6 @@ describe 'Questions API', type: :request do
   end
 
   describe 'GET /api/v1/questions/:id' do
-
     let(:api_path) { "/api/v1/questions/#{question.id}" }
 
     it_behaves_like 'API Authorizable' do
@@ -114,7 +115,6 @@ describe 'Questions API', type: :request do
   end
 
   describe 'PUT /api/v1/questions/:id' do
-
     let(:user) { create(:user) }
     let(:access_token) { create(:access_token, resource_owner_id: user.id) }
     let!(:question) { create(:question, author: user) }
@@ -133,7 +133,6 @@ describe 'Questions API', type: :request do
   end
 
   describe 'DELETE /api/v1/questions/:id' do
-
     let(:user) { create(:user) }
     let(:access_token) { create(:access_token, resource_owner_id: user.id) }
     let!(:question) { create(:question, author: user) }
@@ -147,5 +146,4 @@ describe 'Questions API', type: :request do
 
     it_behaves_like 'API Delete Resource', Question
   end
-
 end

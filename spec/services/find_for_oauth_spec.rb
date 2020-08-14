@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe FindForOauthService do
-
   let!(:user) { create(:user) }
   let(:auth) { OmniAuth::AuthHash.new(provider: 'github', uid: '123456') }
   subject { FindForOauthService.new(auth) }
@@ -77,5 +76,4 @@ RSpec.describe FindForOauthService do
       end
     end
   end
-
 end

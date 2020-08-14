@@ -72,13 +72,13 @@ RSpec.describe AnswersController, type: :controller do
       before { login(user) }
 
       it 'try to edit the answer' do
-        post :update, params: { id: answer, answer: { body: 'new body'} }, format: :js
+        post :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
         answer.reload
         expect(answer.body).to_not eq 'new body'
       end
 
       it 'return forbidden' do
-        post :update, params: { id: answer, answer: { body: 'new body'} }, format: :js
+        post :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
         expect(response).to have_http_status(:forbidden)
       end
     end
@@ -212,7 +212,7 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'with invalid attributes' do
       it 'does not save the comment' do
-        expect { post :comment, params: { comment: attributes_for(:comment, :invalid) , commentable: answer, id: answer.id, format: :js} }.to_not change(Comment, :count)
+        expect { post :comment, params: { comment: attributes_for(:comment, :invalid), commentable: answer, id: answer.id, format: :js } }.to_not change(Comment, :count)
       end
     end
   end

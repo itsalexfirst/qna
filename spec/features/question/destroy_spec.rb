@@ -1,11 +1,10 @@
 require 'rails_helper'
 
-feature 'Only Author can delete question', %q{
+feature 'Only Author can delete question', '
   In order to delete question from community
   As an authenticated user
   I`d like to be able to delete my own question
-} do
-
+' do
   given!(:author) { create(:user) }
   given!(:user) { create(:user) }
   given!(:question) { create(:question, author: author) }
@@ -50,5 +49,4 @@ feature 'Only Author can delete question', %q{
     expect(page).to have_content question.title
     expect(page).to_not have_link 'Delete'
   end
-
 end

@@ -1,11 +1,10 @@
 require 'rails_helper'
 
-feature 'User can see questions list', %q{
+feature 'User can see questions list', '
   In order to see questions of community
   As an guest or authenticated user
   I`d like to be able to get questions list
-} do
-
+' do
   given(:user) { create(:user) }
   given!(:questions) { create_list(:question, 3) }
   given!(:answers) { create_list(:answer, 3, question: questions.first) }

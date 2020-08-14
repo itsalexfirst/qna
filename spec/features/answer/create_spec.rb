@@ -1,16 +1,15 @@
 require 'rails_helper'
 
-feature 'User can create answer', %q{
+feature 'User can create answer', '
   In order to answer a question from community
   As an authenticated user
   I`d like to be able to answer selected question on its page
-} do
+' do
   given(:user) { create(:user) }
   given(:question) { create(:question) }
   given!(:answer) { create(:answer, question: question) }
 
   describe 'Authenticated user', js: true do
-
     background do
       sign_in(user)
 
@@ -27,7 +26,7 @@ feature 'User can create answer', %q{
 
     scenario 'answer a question with attached file' do
       fill_in 'Body', with: 'test text'
-      attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+      attach_file 'File', %W[#{Rails.root}/spec/rails_helper.rb #{Rails.root}/spec/spec_helper.rb]
       click_on 'Answer'
 
       expect(page).to have_link 'rails_helper.rb'

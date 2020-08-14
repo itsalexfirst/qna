@@ -27,19 +27,29 @@ gem 'jbuilder', '~> 2.7'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
-gem 'slim-rails'
+
+# Authentication
 gem 'devise'
-gem 'aws-sdk-s3', require: false
-gem 'cocoon'
-gem 'gon'
 gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-yandex'
-gem 'letter_opener'
+# Authorization
 gem 'cancancan'
-gem 'doorkeeper', '5.1.0'
+# API
+gem 'doorkeeper', '~> 5.1.1'
+# Storage. Greedy Lying Bastards
+gem 'aws-sdk-s3', require: false
+# Service
+gem 'letter_opener'
+# templater
+gem 'slim-rails'
+# Send data from action to js. gon.variable_name = variable_value
+gem 'gon'
+# JSON
 gem 'active_model_serializers', '~> 0.10'
 gem 'oj'
+# Nested forms to handle
+gem 'cocoon'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

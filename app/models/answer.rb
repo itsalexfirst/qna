@@ -25,6 +25,6 @@ class Answer < ApplicationRecord
   def publish_files
     all_files = []
     files.each { |file| all_files.push(id: file.id, name: file.filename.to_s, url: file.service_url) }
-    return all_files
+    all_files
   end
 end

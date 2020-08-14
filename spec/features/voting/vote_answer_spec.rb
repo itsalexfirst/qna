@@ -1,18 +1,16 @@
 require 'rails_helper'
 
-feature 'User can vote for answer', %q{
+feature 'User can vote for answer', '
   In order to mark useful answer from community
   As an authenticated user
   I`d like to be able to vote for the answer
-} do
-
+' do
   given(:user) { create(:user) }
   given!(:question) { create(:question) }
   given!(:answer) { create(:answer, question: question) }
   given!(:user_answer) { create(:answer, question: question, author: user) }
 
   describe 'Authenticated user', js: true do
-
     background do
       sign_in(user)
 
@@ -20,7 +18,6 @@ feature 'User can vote for answer', %q{
     end
 
     scenario 'vote up for a answer' do
-
       within "#answer-#{answer.id}" do
         click_on 'vote up'
 
@@ -45,7 +42,6 @@ feature 'User can vote for answer', %q{
     end
 
     scenario 'tries to vote up second time for answer' do
-
       within "#answer-#{answer.id}" do
         2.times { click_on 'vote up' }
 
@@ -54,7 +50,6 @@ feature 'User can vote for answer', %q{
     end
 
     scenario 'tries to vote down second time for answer' do
-
       within "#answer-#{answer.id}" do
         2.times { click_on 'vote down' }
 

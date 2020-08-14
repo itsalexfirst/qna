@@ -1,11 +1,10 @@
 require 'rails_helper'
 
-feature 'User can sign out', %q{
+feature 'User can sign out', "
   In order to close session
   As an authenticated user
   I'd Like to be able sign out
-} do
-
+" do
   given(:user) { create(:user) }
 
   background { visit root_path }
@@ -16,7 +15,7 @@ feature 'User can sign out', %q{
     expect(page).to have_content 'Signed out successfully.'
   end
 
-  scenario 'Unautheticated user tries to sign out' do
-    expect(page).to_not have_link'Log out'
+  scenario 'Unauthenticated user tries to sign out' do
+    expect(page).to_not have_link 'Log out'
   end
 end

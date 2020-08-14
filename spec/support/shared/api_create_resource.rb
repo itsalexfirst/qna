@@ -1,20 +1,17 @@
-RSpec.shared_examples "API Create Resource" do |model|
-  #let(:class_str) { model.to_s.underscore }
+RSpec.shared_examples 'API Create Resource' do |model|
+  # let(:class_str) { model.to_s.underscore }
   let(:class_sym) { model.to_s.underscore.to_sym }
 
-  subject(:create_resource) {
-    post api_path, params: {access_token: access_token.token, class_sym => create_attrs}.to_json, headers: headers
-  }
+  subject(:create_resource) do
+    post api_path, params: { access_token: access_token.token, class_sym => create_attrs }.to_json, headers: headers
+  end
 
   describe 'created resource' do
-
-
     it 'creates new resource' do
       expect { create_resource }.to change { model.all.size }.by(1)
     end
 
     describe 'created resource' do
-  
       let!(:new_resource) do
         create_resource
         id = model.all.ids.last
@@ -26,9 +23,7 @@ RSpec.shared_examples "API Create Resource" do |model|
         expect(response).to be_successful
       end
 
-
       it 'is assigned to the current user' do
-        
         expect(new_resource.author).to eq user
       end
 
@@ -38,5 +33,3 @@ RSpec.shared_examples "API Create Resource" do |model|
     end
   end
 end
-
-
