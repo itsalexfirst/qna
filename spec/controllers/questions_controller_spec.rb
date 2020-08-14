@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
+
+  it_behaves_like 'voted'
+
   let(:question) { create(:question, author: user) }
   let(:user) { create(:user) }
 
@@ -140,13 +143,13 @@ RSpec.describe QuestionsController, type: :controller do
       before { login(user) }
 
       it 'try to edit the question' do
-        post :update, params: { id: question, question: { body: 'new body' } }, format: :js
+        post :update, params: { id: question, question: { body: 'new body'} }, format: :js
         question.reload
         expect(question.body).to_not eq 'new body'
       end
 
       it 'return forbidden' do
-        post :update, params: { id: question, question: { body: 'new body' } }, format: :js
+        post :update, params: { id: question, question: { body: 'new body'} }, format: :js
         expect(response).to have_http_status(:forbidden)
       end
     end
@@ -182,50 +185,6 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'POST #vote_up' do
-    let!(:question) { create(:question) }
-
-    context 'author of questions' do
-      before { login(question.author) }
-
-      it 'vote up for question' do
-        post :vote_up, params: { id: question }, format: :js
-        expect(question.votes_sum).to eq 0
-      end
-    end
-
-    context 'not author of questions' do
-      before { login(user) }
-
-      it 'vote up for question' do
-        post :vote_up, params: { id: question }, format: :js
-        expect(question.votes_sum).to eq 1
-      end
-    end
-  end
-
-  describe 'POST #vote_down' do
-    let!(:question) { create(:question) }
-
-    context 'author of questions' do
-      before { login(question.author) }
-
-      it 'vote down for question' do
-        post :vote_down, params: { id: question }, format: :js
-        expect(question.votes_sum).to eq 0
-      end
-    end
-
-    context 'not author of questions' do
-      before { login(user) }
-
-      it 'vote down for question' do
-        post :vote_down, params: { id: question }, format: :js
-        expect(question.votes_sum).to eq(-1)
-      end
-    end
-  end
-
   describe 'POST #comment' do
     let!(:question) { create(:question) }
     before { login(user) }
@@ -242,7 +201,7 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'with invalid attributes' do
       it 'does not save the comment' do
-        expect { post :comment, params: { comment: attributes_for(:comment, :invalid), commentable: question, id: question.id, format: :js } }.to_not change(Comment, :count)
+        expect { post :comment, params: { comment: attributes_for(:comment, :invalid) , commentable: question, id: question.id, format: :js} }.to_not change(Comment, :count)
       end
     end
   end
