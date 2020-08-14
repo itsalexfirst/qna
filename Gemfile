@@ -37,6 +37,9 @@ gem 'omniauth-github'
 gem 'omniauth-yandex'
 gem 'letter_opener'
 gem 'cancancan'
+gem 'doorkeeper', '5.1.0'
+gem 'active_model_serializers', '~> 0.10'
+gem 'oj'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

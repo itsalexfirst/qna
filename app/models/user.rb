@@ -12,7 +12,7 @@ class User < ApplicationRecord
   has_many :questions, foreign_key: 'author_id', dependent: :destroy
   has_many :answers, foreign_key: 'author_id', dependent: :destroy
   has_many :awards, dependent: :destroy
-  has_many :comments, dependent: :destroy
+  has_many :comments, foreign_key: 'author_id', dependent: :destroy
 
   has_many :authorizations, dependent: :destroy
 
