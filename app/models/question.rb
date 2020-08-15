@@ -15,6 +15,8 @@ class Question < ApplicationRecord
 
   validates :title, :body, presence: true
 
+  after_create :calculate_reputation
+
   def best_answer
     answers.best
   end
@@ -28,5 +30,11 @@ class Question < ApplicationRecord
   def publish_award
     file = []
     file.push(title: award.title, url: award.image.service_url) if award.present?
+  end
+
+  private
+
+  def calculate_reputation
+    ReputationJob.perform_later(self)
   end
 end

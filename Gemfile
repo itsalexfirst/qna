@@ -39,8 +39,12 @@ gem 'cancancan'
 gem 'doorkeeper', '~> 5.1.1'
 # Storage. Greedy Lying Bastards
 gem 'aws-sdk-s3', require: false
+# Background job
+gem 'sidekiq'
 # Service
 gem 'letter_opener'
+gem 'sinatra', require: false
+gem 'whenever', require: false
 # templater
 gem 'slim-rails'
 # Send data from action to js. gon.variable_name = variable_value
@@ -50,6 +54,7 @@ gem 'active_model_serializers', '~> 0.10'
 gem 'oj'
 # Nested forms to handle
 gem 'cocoon'
+
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
