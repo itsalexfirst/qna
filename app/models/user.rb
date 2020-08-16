@@ -13,6 +13,8 @@ class User < ApplicationRecord
   has_many :answers, foreign_key: 'author_id', dependent: :destroy
   has_many :awards, dependent: :destroy
   has_many :comments, foreign_key: 'author_id', dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
+  has_many :subscribed_questions, through: :subscriptions, source: :question
 
   has_many :authorizations, dependent: :destroy
 

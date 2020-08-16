@@ -48,4 +48,13 @@ RSpec.describe Answer, type: :model do
       expect(answer_for_awarded_question.author.awards.first).to eq question_with_award.award
     end
   end
+
+  describe '#new_answer_notification' do
+    let(:answer) { build(:answer) }
+
+    it 'calls NotificationJob' do
+      expect(NewAnswerNotificationJob).to receive(:perform_later).with(answer)
+      answer.save!
+    end
+  end
 end

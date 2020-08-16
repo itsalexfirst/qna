@@ -14,6 +14,8 @@ class Answer < ApplicationRecord
 
   scope :best, -> { where(best: true).take }
 
+  after_create :new_answer_notification
+
   def best!
     Answer.transaction do
       question.best_answer&.update(best: false)
@@ -26,5 +28,11 @@ class Answer < ApplicationRecord
     all_files = []
     files.each { |file| all_files.push(id: file.id, name: file.filename.to_s, url: file.service_url) }
     all_files
+  end
+
+  private
+
+  def new_answer_notification
+    NewAnswerNotificationJob.perform_later(self)
   end
 end
