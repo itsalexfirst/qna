@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   end
 
   resources :questions, concerns: %i[votable commentable] do
+    resources :subscriptions, shallow: true, only: %i[create destroy]
     resources :answers, shallow: true, concerns: %i[votable commentable] do
 
       member do

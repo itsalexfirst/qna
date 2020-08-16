@@ -1,0 +1,23 @@
+
+
+- if can?(:destroy, Subscription) && can?(:create, Subscription)
+
+  - if subscription&.present?
+
+    = link_to 'Unsubscribe',  subscription_path(subscription),
+            method: :delete,
+            remote: true,
+            id: "unsubscribe-link"
+
+  - else
+
+    = link_to 'Subscribe', question_subscriptions_path(resource),
+            method: :post,
+            remote: true,
+            id: "subscribe-link"
+
+/ похоже на костыль, не понял как в ability настроить проверку существования записи
+
+
+
+

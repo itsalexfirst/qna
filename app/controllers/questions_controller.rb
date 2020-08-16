@@ -2,6 +2,8 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :load_question, only: %i[show edit update destroy]
 
+  before_action :load_subscription, only: %i[show]
+
   after_action :publish_question, only: %i[create]
 
   include Voted
@@ -73,5 +75,9 @@ class QuestionsController < ApplicationController
                                      files: [],
                                      links_attributes: %i[name url _destroy],
                                      award_attributes: %i[title image])
+  end
+
+  def load_subscription
+    @subscription = @question.subscriptions.find_by(user: current_user)
   end
 end

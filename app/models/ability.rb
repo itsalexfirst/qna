@@ -38,6 +38,10 @@ class Ability
     can :index, Award, { user_id: user.id }
     can :destroy, Link, linkable: { author_id: user.id }
 
+    can :create, Subscription
+    can :destroy, Subscription, user_id: user.id
+
+
     can %i[index me], User
   end
 end
