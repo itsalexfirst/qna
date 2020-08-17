@@ -10,7 +10,7 @@ class SubscriptionsController < ApplicationController
   end
 
   def destroy
-    @question = current_user&.subscriptions.where(id: @subscription.id).take.question_id  #наверно нужен scope
+    @question = @subscription.question
     @subscription.destroy
   end
 
