@@ -4,6 +4,11 @@
   - if @question.award.present?
     = image_tag(@question.award.image, height: "40")
 
+  = render 'shared/voting', resource: @question
+
+  .question-subscription
+    = render 'subscriptions/subscription', { resource: @question,  subscription: @subscription }
+
   -if @question.files.attached?
     - @question.files.each do |file|
       div id="attachment-#{file.id}"

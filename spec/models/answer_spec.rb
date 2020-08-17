@@ -14,6 +14,8 @@ RSpec.describe Answer, type: :model do
     expect(Answer.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
   end
 
+  it_behaves_like 'votable'
+
   describe '#best!' do
     let(:user) { create(:user) }
     let!(:question) { create(:question, author: user) }
@@ -23,6 +25,7 @@ RSpec.describe Answer, type: :model do
     let!(:award) { create(:award) }
     let!(:question_with_award) { create(:question, award: award, author: user) }
     let!(:answer_for_awarded_question) { create(:answer, question: question_with_award) }
+
 
     it 'choose another answer as best' do
       expect(answer).to be_best
@@ -46,51 +49,12 @@ RSpec.describe Answer, type: :model do
     end
   end
 
-  describe '#create_vote' do
-    let!(:answer) { create(:answer) }
-    let!(:user) { create(:user) }
-    let!(:another_user) { create(:user) }
+  describe '#new_answer_notification' do
+    let(:answer) { build(:answer) }
 
-    it 'one user vote up' do
-      expect(answer.votes.count).to eq 0
-      answer.create_vote(user, 1)
-
-      expect(answer.votes.count).to eq 1
-    end
-
-    it 'one user vote up then undo vote' do
-      expect(answer.votes.count).to eq 0
-      answer.create_vote(user, 1)
-      answer.create_vote(user, -1)
-
-      expect(answer.votes.count).to eq 0
-    end
-
-    it 'two users vote' do
-      expect(answer.votes.count).to eq 0
-      answer.create_vote(user, 1)
-      answer.create_vote(another_user, -1)
-
-      expect(answer.votes.count).to eq 2
-    end
-  end
-
-  describe '#votes_sum' do
-    let!(:answer) { create(:answer) }
-    let!(:user) { create(:user) }
-    let!(:vote) { create(:vote, votable: answer, user: user) }
-
-    let!(:another_answer) { create(:answer) }
-    let!(:another_user) { create(:user) }
-    let!(:another_vote_1) { create(:vote, votable: another_answer, user: user) }
-    let!(:another_vote_2) { create(:vote, :vote_down, votable: another_answer, user: another_user) }
-
-    it 'one user vote up' do
-      expect(answer.votes_sum).to eq 1
-    end
-
-    it 'two users vote' do
-      expect(another_answer.votes_sum).to eq 0
+    it 'calls NotificationJob' do
+      expect(NewAnswerNotificationJob).to receive(:perform_later).with(answer)
+      answer.save!
     end
   end
 end
