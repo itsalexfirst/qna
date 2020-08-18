@@ -54,6 +54,9 @@ gem 'active_model_serializers', '~> 0.10'
 gem 'oj'
 # Nested forms to handle
 gem 'cocoon'
+# search
+gem 'mysql2'
+gem 'thinking-sphinx'
 
 
 group :development, :test do
