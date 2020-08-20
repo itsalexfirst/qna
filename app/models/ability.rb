@@ -16,6 +16,7 @@ class Ability
   def guest_abilities
     can :read, :all
     cannot :index, Award
+    cannot :index, :search
   end
 
   def admin_abilities

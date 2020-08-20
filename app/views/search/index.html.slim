@@ -1,7 +1,9 @@
-- if @keywords.strip.empty?
-  p= "Your request is empty"
-- elsif @search_result.empty?
-  p= "Nothing has been found"
-- else
-  - @search_result.each do |resource|
-    p= resource
+- if can?(:index, :search)
+  - if @keywords.strip.empty?
+    p= "Request is empty"
+  - elsif @search_result.empty?
+    p= "Nothing found"
+  - else
+    - @search_result.each do |resource|
+      p= resource
+      = render resource.class.to_s.underscore, resource: resource

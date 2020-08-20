@@ -1,0 +1,7 @@
+p= 'comment'
+-if resource.commentable.is_a?(Question)
+  = link_to resource.commentable.title, question_path(resource.commentable)
+-else
+  = link_to resource.commentable.question.title, question_path(resource.commentable.question)
+
+p= resource.body
