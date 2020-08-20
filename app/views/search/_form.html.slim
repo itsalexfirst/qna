@@ -1,0 +1,9 @@
+= form_for :search, url: search_index_path, method: :get, local: true do |f|
+
+  = f.label :keywords
+  = f.text_field :keywords
+  - models = %w[Question Answer Comment User]
+  - models.each do |model|
+    = f.check_box :resource, {multiple: true}, model, false
+    = f.label model
+  = f.submit 'Search'

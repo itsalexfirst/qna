@@ -1,0 +1,7 @@
+- if @keywords.strip.empty?
+  p= "Your request is empty"
+- elsif @search_result.empty?
+  p= "Nothing has been found"
+- else
+  - @search_result.each do |resource|
+    p= resource

@@ -41,7 +41,8 @@ class Ability
     can :create, Subscription
     can :destroy, Subscription, user_id: user.id
 
-
     can %i[index me], User
+
+    can :index, :search
   end
 end
