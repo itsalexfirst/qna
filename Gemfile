@@ -54,6 +54,9 @@ gem 'active_model_serializers', '~> 0.10'
 gem 'oj'
 # Nested forms to handle
 gem 'cocoon'
+# search
+gem 'mysql2'
+gem 'thinking-sphinx'
 
 
 group :development, :test do
@@ -82,6 +85,7 @@ group :test do
   gem 'shoulda-matchers'
   gem 'rails-controller-testing'
   gem 'launchy'
+  gem 'database_cleaner-active_record'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
