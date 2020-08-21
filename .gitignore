@@ -42,5 +42,5 @@ yarn-debug.log*
 /.ruby-version.05.22.2020-23:52:33
 /.editorconfig
 
-/config/development.sphinx.conf
+/config/*.sphinx.conf
 /db/sphinx
