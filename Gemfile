@@ -40,7 +40,7 @@ gem 'doorkeeper', '~> 5.1.1'
 # Storage. Greedy Lying Bastards
 gem 'aws-sdk-s3', require: false
 # Background job
-gem 'sidekiq'
+gem 'sidekiq', '~> 5.2'
 # Service
 gem 'letter_opener'
 gem 'sinatra', require: false
@@ -80,6 +80,7 @@ group :development do
   gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
   gem 'capistrano-passenger', require: false
+  gem 'capistrano-sidekiq', require: false
 end
 
 group :test do
