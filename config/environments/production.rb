@@ -65,8 +65,9 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: '128.199.41.171' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-      address: 'smtp.gmail.com',
-      port: 587,
+      tls: true,
+      address: 'smtp.mail.ru',
+      port: 465,
       user_name: Rails.application.credentials[Rails.env.to_sym][:smtp][:user],
       password: Rails.application.credentials[Rails.env.to_sym][:smtp][:password],
       authentication: 'plain',
