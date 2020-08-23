@@ -16,7 +16,7 @@ class Ability
   def guest_abilities
     can :read, :all
     cannot :index, Award
-    cannot :index, :search
+    can :index, :search
   end
 
   def admin_abilities
@@ -43,7 +43,5 @@ class Ability
     can :destroy, Subscription, user_id: user.id
 
     can %i[index me], User
-
-    can :index, :search
   end
 end
