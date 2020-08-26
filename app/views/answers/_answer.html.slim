@@ -1,6 +1,7 @@
 -if answer.persisted?
   div  id="answer-#{answer.id}"
-    p= answer.body
+    - cache answer, skip_digest: ( can?(:destroy, answer) ) do
+      p= answer.body
 
     = render 'shared/voting', resource: answer
 

@@ -1,52 +1,54 @@
 .question data-question-id="#{@question.id}"
-  h1= @question.title
-  p= @question.body
-  - if @question.award.present?
-    = image_tag(@question.award.image, height: "40")
+  - cache @question, skip_digest: ( can?(:destroy, @question) ) do
+    h1= @question.title
+    p= @question.body
 
-  = render 'shared/voting', resource: @question
+    - if @question.award.present?
+      = image_tag(@question.award.image, height: "40")
 
-  .question-subscription
-    = render 'subscriptions/subscription', { resource: @question,  subscription: @subscription }
+    = render 'shared/voting', resource: @question
 
-  -if @question.files.attached?
-    - @question.files.each do |file|
-      div id="attachment-#{file.id}"
-        p= link_to file.filename.to_s, url_for(file)
-        - if can?(:destroy, file)
-          = link_to 'Delete file', attachment_path(file),
-                  method: :delete,
-                  remote: true,
-                  data: {confirm: 'Are you sure?'}
+    .question-subscription
+      = render 'subscriptions/subscription', { resource: @question,  subscription: @subscription }
 
-  -if can?(:destroy, @question)
-    =link_to 'Delete', question_path(@question),
-                     method: :delete,
-                     data: { confirm: 'Are you sure?' }
+    -if @question.files.attached?
+      - @question.files.each do |file|
+        div id="attachment-#{file.id}"
+          p= link_to file.filename.to_s, url_for(file)
+          - if can?(:destroy, file)
+            = link_to 'Delete file', attachment_path(file),
+                    method: :delete,
+                    remote: true,
+                    data: {confirm: 'Are you sure?'}
 
-  .links
-    -unless @question.links.empty?
-      p Links:
-      ul
-        - @question.links.each do |link|
-          div id="link-#{link.id}"
-            -if link.gist?
-              =render 'shared/gist_body', resource: link
-            -else
-              li= link_to link.name, link.url
-            - if can?(:destroy, link)
-              = link_to 'Delete link', link_path(link),
-                      method: :delete,
-                      remote: true,
-                      data: {confirm: 'Are you sure?'}
-  div  id="question-#{@question.id}-comments"
-    - if can?(:comment, @question)
-      p= render 'shared/comment_form', resource: @question, comment: Comment.new
+    -if can?(:destroy, @question)
+      =link_to 'Delete', question_path(@question),
+                       method: :delete,
+                       data: { confirm: 'Are you sure?' }
 
-    = render 'shared/comment', resource: @question.comments
+    .links
+      -unless @question.links.empty?
+        p Links:
+        ul
+          - @question.links.each do |link|
+            div id="link-#{link.id}"
+              -if link.gist?
+                =render 'shared/gist_body', resource: link
+              -else
+                li= link_to link.name, link.url
+              - if can?(:destroy, link)
+                = link_to 'Delete link', link_path(link),
+                        method: :delete,
+                        remote: true,
+                        data: {confirm: 'Are you sure?'}
+    div  id="question-#{@question.id}-comments"
+      - if can?(:comment, @question)
+        p= render 'shared/comment_form', resource: @question, comment: Comment.new
+
+      = render 'shared/comment', resource: @question.comments
 
 
-  =render 'answers/form'
+    =render 'answers/form'
 
-  .answers
-    =render  @question.answers.with_attached_files
+    .answers
+      =render  @question.answers.with_attached_files
